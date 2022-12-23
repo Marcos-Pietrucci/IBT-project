@@ -1,12 +1,12 @@
 * GALA protocol specification in protobuf
   Using *proto2* for compatibility with proto-c, consider switching to proto3
-  - consider switching some fields' encoding from `sint` to `int` (better for positive values) based on statistic (cow temperature will probably be higer than 0), while environment values can remain `sint` since the temperature may vary during the year
-  - consider moving all `{min, max, val}` fields inside other messages
-  - consider converting `min` and `max` field to a value computed inside thingsboard, to reduce message size
-  - consider merging `N7` and `N8` into a single packet, distinguished by the header
-  - consider merging `N9` and `N10` into a single packet, distinguished by the header
+  - consider switching some fields' encoding from =sint= to =int= (better for positive values) based on statistic (cow temperature will probably be higer than 0), while environment values can remain =sint= since the temperature may vary during the year
+  - consider moving all ={min, max, val}= fields inside other messages
+  - consider converting =min= and =max= field to a value computed inside thingsboard, to reduce message size
+  - consider merging =N7= and =N8= into a single packet, distinguished by the header
+  - consider merging =N9= and =N10= into a single packet, distinguished by the header
   TODO:
-  - define `Network` enumeration's size and values
+  - define =Network= enumeration's size and values
      
 #+begin_src protobuf
   syntax = "proto2";
