@@ -1,3 +1,6 @@
+#+TITLE: GALA protocol protobuf specification
+#+PROPERTY: header-args :tangle GALA.proto
+#+STARTUP: content
 * GALA protocol specification in protobuf
   Using *proto2* for compatibility with proto-c, consider switching to proto3
   - consider switching some fields' encoding from =sint= to =int=
@@ -32,24 +35,28 @@
     so this point also can be ignored
   #+end_comment
   TODO:
-  - define =Network= enumeration's size and values
-     
+  - define =Network= enumeration's values
+
+** Protobuf version
+Specify which protobuf version to use
+
 #+begin_src protobuf
   syntax = "proto2";
-#+end_src protobuf
+#+end_src
 
 ** NodeInfos
    - battery voltage
    - firmware version
    - rolling
    These fields are present in every node (except for node N9 "Weather" and N10 "Gateway"
+
 #+begin_src protobuf
   message NodeInfos {
     required uint32 battery_voltage = 1;
     required uint32 fw_version = 2;
-    required uint8  packet_rolling_num = 3;
+    required uint32  packet_rolling_num = 3;
   }
-#+end_src protobuf
+#+end_src
 
 ** N1 specific data
    N1 nodes send data about indoor environment:
@@ -70,7 +77,7 @@
     required NodeInfos int = 1;
     required DataN1 ext = 2;
   }
-#+end_src protobuf
+#+end_src
 
 ** N2 specific data
    N2 nodes send data about cows behavior:
@@ -86,13 +93,14 @@
      As previously said in the introduction this operation will not be
      done since it just make the specification harder to understand
    #+end_comment
+
 #+begin_src protobuf
   message DataN2 {
-    required uint8  bma_reset_counter = 1;
-    required uint8  cow_shock_conunt = 2;
-    required uint8  cow_temperature_min = 3;
-    required uint8  cow_temperature_max = 4;
-    required uint8  cow_temperature_ave = 5;
+    required uint32  bma_reset_counter = 1;
+    required uint32  cow_shock_conunt = 2;
+    required uint32  cow_temperature_min = 3;
+    required uint32  cow_temperature_max = 4;
+    required uint32  cow_temperature_ave = 5;
     repeated float  cow_features_set_0_fx = 6 [packed = true]; // zero or more values
     required uint32 behaviour_classes = 7;
   }
@@ -101,12 +109,13 @@
     required NodeInfos int = 1;
     required DataN2 ext = 2;
   }
-#+end_src protobuf
+#+end_src
 
 ** N3 specific data
    N3 nodes send data about water usage and temperature
    - drinking water usage and temperature
    - sprinkler water usage
+
 #+begin_src protobuf
   message DataN3 {
     required uint32 drinking_water_volume_cumulated = 1;
@@ -119,13 +128,14 @@
     required NodeInfos int = 1;
     required DataN3 ext = 2;
   }
-#+end_src protobuf
+#+end_src
 
 ** N4 specific data
    N4 nodes send different datas regarding litter
    - conductivity
    - temperature
    - volumetric water count
+
 #+begin_src protobuf
   message DataN4 {
     required uint32 litter_conductivity = 1;
@@ -137,7 +147,7 @@
     required NodeInfos int = 1;
     required DataN4 ext = 2;
   }
-#+end_src protobuf
+#+end_src
 
 ** N5 specific data
    N5 nodes are used to measure conditions of the environment inside
@@ -145,44 +155,47 @@
    - sound levels (min, max, avg)
    - gas concentration (ammonia, hydrogen sulfide, carbon dioxide and
      metane)
+
 #+begin_src protobuf
   message DataN5 {
-    required uint8  sound_level_min = 1;
-    required uint8  sound_level_max = 2;
-    required uint8  sound_level_avg = 3;
+    required uint32  sound_level_min = 1;
+    required uint32  sound_level_max = 2;
+    required uint32  sound_level_avg = 3;
     required uint32 nh3_ppm = 4;
     required uint32 h2s_ppm = 5;
     required uint32 co2_ppm = 6;
     required uint32 ch4_ppm = 7;
   }
     
-  message payloadN5 {
+  message PayloadN5 {
     required NodeInfos int = 1;
     required DataN5 ext = 2;
   }
-#+end_src protobuf
+#+end_src
 
 ** N6 specific data
    N6 nodes measure values related to wind:
    - speed
    - direction
+
 #+begin_src protobuf
   message DataN6 {
     required uint32 indoor_wind_speed_min = 1;
     required uint32 indoor_wind_speed_max = 2;
     required uint32 indoor_wind_speed = 3;
-    required uint32 indoor_wind_direction= 1;
+    required uint32 indoor_wind_direction= 4;
   }
 
   message PayloadN6 {
     required NodeInfos int = 1;
     required DataN6 ext = 2;
   }
-#+end_src protobuf
+#+end_src
 
 ** N7 specific data
    N7 only sends one field of data:
    - status of a dry contact (open closed)
+
 #+begin_src protobuf
   enum State {
     OPEN   = 0;
@@ -197,7 +210,7 @@
     required NodeInfos int = 1;
     required DataN7 ext = 2;
   }
-#+end_src protobuf
+#+end_src
 
 ** N8 specific data
    As in N7, this message specify the state of a rele with just two
@@ -209,6 +222,7 @@
 
      As specified in the introduction this will not be done
    #+end_comment
+
 #+begin_src protobuf
   message DataN8 {
     required State rele = 1;
@@ -218,7 +232,7 @@
     required NodeInfos int = 1;
     required DataN8 ext = 2;
   }
-#+end_src protobuf
+#+end_src
 
 ** N9 specific data
    N9 packets are used to represent the gateway status:
@@ -226,6 +240,7 @@
    - network status and overall weather conditions
 #+begin_src protobuf
   enum Network {
+    PLACEHOLDER = 0;
     // still no definition for Network enum values
   }
 
@@ -235,7 +250,7 @@
     required uint32 solar_voltage = 3;
     required uint32 solar_current = 4;
     required Network network_type = 5;
-    required uint8  signal_strength = 6;
+    required uint32  signal_strength = 6;
     required double latitude = 7;
     required double longitude = 8;
   }
@@ -251,12 +266,12 @@
     required uint32 outdoor_wind_direction = 8;
     required uint32 outdoor_rainfall = 9;
   }
-    
+
   message PayloadN9 {
-    required StatusGateway = 1;
-    required DataN9 = 2;
+    required StatusGateway int = 1;
+    required DataN9 ext = 2;
   } 
-#+end_src protobuf
+#+end_src
 
 ** N10 specific data
    N10 node sends additional data about environment
@@ -266,9 +281,9 @@
     required double longitude = 2;
     required sint32 case_temperature = 3;
     required uint32 case_humidity = 4;
-    repeated uint8  indoor_insects_count_packed = 5;
+    repeated uint32  indoor_insects_count_packed = 5;
   }
-#+end_src protobuf
+#+end_src
 
 ** Gateway message
    By implementing this message it is possible to create a single
@@ -287,15 +302,15 @@
 
 #+begin_src protobuf
   message BlobMessage {
-    repeated PayloadN1  node1_messages  = 1  [packed = true];
-    repeated PayloadN2  node2_messages  = 2  [packed = true];
-    repeated PayloadN3  node3_messages  = 3  [packed = true];
-    repeated PayloadN4  node4_messages  = 4  [packed = true];
-    repeated PayloadN5  node5_messages  = 5  [packed = true];
-    repeated PayloadN6  node6_messages  = 6  [packed = true];
-    repeated PayloadN7  node7_messages  = 7  [packed = true];
-    repeated PayloadN8  node8_messages  = 8  [packed = true];
-    repeated PayloadN9  node9_messages  = 9  [packed = true];
-    repeated PayloadN10 node10_messages = 10 [packed = true];
+    repeated PayloadN1  node1_messages  =  1;
+    repeated PayloadN2  node2_messages  =  2;
+    repeated PayloadN3  node3_messages  =  3;
+    repeated PayloadN4  node4_messages  =  4;
+    repeated PayloadN5  node5_messages  =  5;
+    repeated PayloadN6  node6_messages  =  6;
+    repeated PayloadN7  node7_messages  =  7;
+    repeated PayloadN8  node8_messages  =  8;
+    repeated PayloadN9  node9_messages  =  9;
+    repeated PayloadN10 node10_messages = 10;
   }
-#+end_src protobuf
+#+end_src
