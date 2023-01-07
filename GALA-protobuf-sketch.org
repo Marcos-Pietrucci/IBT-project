@@ -1,7 +1,6 @@
 #+TITLE: GALA protocol protobuf specification
 #+PROPERTY: header-args :tangle GALA.proto
 #+STARTUP: content
-* GALA protocol specification in protobuf
   Using *proto2* for compatibility with proto-c, consider switching to proto3
   - consider switching some fields' encoding from =sint= to =int=
     (better for positive values) based on statistic (cow temperature
