@@ -1,10 +1,36 @@
 * GALA protocol specification in protobuf
   Using *proto2* for compatibility with proto-c, consider switching to proto3
-  - consider switching some fields' encoding from =sint= to =int= (better for positive values) based on statistic (cow temperature will probably be higer than 0), while environment values can remain =sint= since the temperature may vary during the year
+  - consider switching some fields' encoding from =sint= to =int=
+    (better for positive values) based on statistic (cow temperature
+    will probably be higer than 0), while environment values can
+    remain =sint= since the temperature may vary during the year
+  #+begin_comment
   - consider moving all ={min, max, val}= fields inside other messages
-  - consider converting =min= and =max= field to a value computed inside thingsboard, to reduce message size
-  - consider merging =N7= and =N8= into a single packet, distinguished by the header
-  - consider merging =N9= and =N10= into a single packet, distinguished by the header
+
+    After further discussion this point has been considered not
+    necessary as it would only make the file less readable since it
+    requires a different definition of the tuple ={min, max, val}= for
+    each type used and this just create a lot of confusion instead of
+    improving the specification
+  #+end_comment
+  #+begin_comment
+  - consider converting =min= and =max= field to a value computed
+    inside thingsboard, to reduce message size
+
+    As the point above, after clarifications with the project manager
+    this point can be ignored since it since it came from a
+    misunderstanding of the fields values
+  #+end_comment
+  #+begin_comment
+  - consider merging =N7= and =N8= into a single packet, distinguished
+    by the header
+  - consider merging =N9= and =N10= into a single packet,
+    distinguished by the header
+
+    It has been decided to stick as much as possible to the previous
+    implementation to avoid changing the workflow of the whole system,
+    so this point also can be ignored
+  #+end_comment
   TODO:
   - define =Network= enumeration's size and values
      
@@ -54,7 +80,12 @@
    - cow features
    - [cow features] [4]
    - cow begavior class
-NOTE: consider moving cow temperature in a sub message
+   #+begin_comment
+     NOTE: consider moving cow temperature in a sub message
+
+     As previously said in the introduction this operation will not be
+     done since it just make the specification harder to understand
+   #+end_comment
 #+begin_src protobuf
   message DataN2 {
     required uint8  bma_reset_counter = 1;
@@ -109,9 +140,11 @@ NOTE: consider moving cow temperature in a sub message
 #+end_src protobuf
 
 ** N5 specific data
-   N5 nodes are used to measure conditions of the environment inside the farm such as sound levels and gas particles concentration
+   N5 nodes are used to measure conditions of the environment inside
+   the farm such as sound levels and gas particles concentration
    - sound levels (min, max, avg)
-   - gas concentration (ammonia, hydrogen sulfide, carbon dioxide, metane)
+   - gas concentration (ammonia, hydrogen sulfide, carbon dioxide and
+     metane)
 #+begin_src protobuf
   message DataN5 {
     required uint8  sound_level_min = 1;
@@ -148,7 +181,7 @@ NOTE: consider moving cow temperature in a sub message
 #+end_src protobuf
 
 ** N7 specific data
-   N7 only sends one type of data:
+   N7 only sends one field of data:
    - status of a dry contact (open closed)
 #+begin_src protobuf
   enum State {
@@ -167,7 +200,15 @@ NOTE: consider moving cow temperature in a sub message
 #+end_src protobuf
 
 ** N8 specific data
-   N8 looks like an N7 packet, there may be the possibility to implement both as an unique packet, only distinguished by the node type in the header
+   As in N7, this message specify the state of a rele with just two
+   states: ={OPEN, CLOSED}=
+   #+begin_comment
+     N8 looks like an N7 packet, there may be the possibility to
+     implement both as an unique packet, only distinguished by the
+     node type in the header
+
+     As specified in the introduction this will not be done
+   #+end_comment
 #+begin_src protobuf
   message DataN8 {
     required State rele = 1;
