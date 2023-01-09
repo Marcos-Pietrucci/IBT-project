@@ -952,14 +952,14 @@ void   payload_n10__free_unpacked
   assert(message->base.descriptor == &payload_n10__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor node_infos__field_descriptors[3] =
+static const ProtobufCFieldDescriptor node_infos__field_descriptors[5] =
 {
   {
     "battery_voltage",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(NodeInfos, has_battery_voltage),
     offsetof(NodeInfos, battery_voltage),
     NULL,
     NULL,
@@ -969,9 +969,9 @@ static const ProtobufCFieldDescriptor node_infos__field_descriptors[3] =
   {
     "fw_version",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(NodeInfos, has_fw_version),
     offsetof(NodeInfos, fw_version),
     NULL,
     NULL,
@@ -981,10 +981,34 @@ static const ProtobufCFieldDescriptor node_infos__field_descriptors[3] =
   {
     "packet_rolling_num",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(NodeInfos, has_packet_rolling_num),
     offsetof(NodeInfos, packet_rolling_num),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "nodeID",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(NodeInfos, has_nodeid),
+    offsetof(NodeInfos, nodeid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "unixTime",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(NodeInfos, has_unixtime),
+    offsetof(NodeInfos, unixtime),
     NULL,
     NULL,
     0,             /* flags */
@@ -994,12 +1018,14 @@ static const ProtobufCFieldDescriptor node_infos__field_descriptors[3] =
 static const unsigned node_infos__field_indices_by_name[] = {
   0,   /* field[0] = battery_voltage */
   1,   /* field[1] = fw_version */
+  3,   /* field[3] = nodeID */
   2,   /* field[2] = packet_rolling_num */
+  4,   /* field[4] = unixTime */
 };
 static const ProtobufCIntRange node_infos__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor node_infos__descriptor =
 {
@@ -1009,7 +1035,7 @@ const ProtobufCMessageDescriptor node_infos__descriptor =
   "NodeInfos",
   "",
   sizeof(NodeInfos),
-  3,
+  5,
   node_infos__field_descriptors,
   node_infos__field_indices_by_name,
   1,  node_infos__number_ranges,
@@ -1021,9 +1047,9 @@ static const ProtobufCFieldDescriptor data_n1__field_descriptors[4] =
   {
     "indoor_wb_temperature",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN1, has_indoor_wb_temperature),
     offsetof(DataN1, indoor_wb_temperature),
     NULL,
     NULL,
@@ -1033,9 +1059,9 @@ static const ProtobufCFieldDescriptor data_n1__field_descriptors[4] =
   {
     "indoor_light",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN1, has_indoor_light),
     offsetof(DataN1, indoor_light),
     NULL,
     NULL,
@@ -1045,9 +1071,9 @@ static const ProtobufCFieldDescriptor data_n1__field_descriptors[4] =
   {
     "indoor_humidity",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN1, has_indoor_humidity),
     offsetof(DataN1, indoor_humidity),
     NULL,
     NULL,
@@ -1057,9 +1083,9 @@ static const ProtobufCFieldDescriptor data_n1__field_descriptors[4] =
   {
     "indoor_db_temperature",
     4,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN1, has_indoor_db_temperature),
     offsetof(DataN1, indoor_db_temperature),
     NULL,
     NULL,
@@ -1098,7 +1124,7 @@ static const ProtobufCFieldDescriptor payload_n1__field_descriptors[2] =
   {
     "int",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN1, int_),
@@ -1110,7 +1136,7 @@ static const ProtobufCFieldDescriptor payload_n1__field_descriptors[2] =
   {
     "ext",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN1, ext),
@@ -1149,9 +1175,9 @@ static const ProtobufCFieldDescriptor data_n2__field_descriptors[7] =
   {
     "bma_reset_counter",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN2, has_bma_reset_counter),
     offsetof(DataN2, bma_reset_counter),
     NULL,
     NULL,
@@ -1161,9 +1187,9 @@ static const ProtobufCFieldDescriptor data_n2__field_descriptors[7] =
   {
     "cow_shock_conunt",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN2, has_cow_shock_conunt),
     offsetof(DataN2, cow_shock_conunt),
     NULL,
     NULL,
@@ -1173,9 +1199,9 @@ static const ProtobufCFieldDescriptor data_n2__field_descriptors[7] =
   {
     "cow_temperature_min",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN2, has_cow_temperature_min),
     offsetof(DataN2, cow_temperature_min),
     NULL,
     NULL,
@@ -1185,9 +1211,9 @@ static const ProtobufCFieldDescriptor data_n2__field_descriptors[7] =
   {
     "cow_temperature_max",
     4,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN2, has_cow_temperature_max),
     offsetof(DataN2, cow_temperature_max),
     NULL,
     NULL,
@@ -1197,9 +1223,9 @@ static const ProtobufCFieldDescriptor data_n2__field_descriptors[7] =
   {
     "cow_temperature_ave",
     5,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN2, has_cow_temperature_ave),
     offsetof(DataN2, cow_temperature_ave),
     NULL,
     NULL,
@@ -1221,9 +1247,9 @@ static const ProtobufCFieldDescriptor data_n2__field_descriptors[7] =
   {
     "behaviour_classes",
     7,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN2, has_behaviour_classes),
     offsetof(DataN2, behaviour_classes),
     NULL,
     NULL,
@@ -1265,7 +1291,7 @@ static const ProtobufCFieldDescriptor payload_n2__field_descriptors[2] =
   {
     "int",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN2, int_),
@@ -1277,7 +1303,7 @@ static const ProtobufCFieldDescriptor payload_n2__field_descriptors[2] =
   {
     "ext",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN2, ext),
@@ -1316,9 +1342,9 @@ static const ProtobufCFieldDescriptor data_n3__field_descriptors[4] =
   {
     "drinking_water_volume_cumulated",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN3, has_drinking_water_volume_cumulated),
     offsetof(DataN3, drinking_water_volume_cumulated),
     NULL,
     NULL,
@@ -1328,9 +1354,9 @@ static const ProtobufCFieldDescriptor data_n3__field_descriptors[4] =
   {
     "drinking_water_temperature",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN3, has_drinking_water_temperature),
     offsetof(DataN3, drinking_water_temperature),
     NULL,
     NULL,
@@ -1340,9 +1366,9 @@ static const ProtobufCFieldDescriptor data_n3__field_descriptors[4] =
   {
     "sprinkler_water_volume_cumulated",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN3, has_sprinkler_water_volume_cumulated),
     offsetof(DataN3, sprinkler_water_volume_cumulated),
     NULL,
     NULL,
@@ -1352,9 +1378,9 @@ static const ProtobufCFieldDescriptor data_n3__field_descriptors[4] =
   {
     "sprinkler_water_temperature",
     4,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN3, has_sprinkler_water_temperature),
     offsetof(DataN3, sprinkler_water_temperature),
     NULL,
     NULL,
@@ -1393,7 +1419,7 @@ static const ProtobufCFieldDescriptor payload_n3__field_descriptors[2] =
   {
     "int",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN3, int_),
@@ -1405,7 +1431,7 @@ static const ProtobufCFieldDescriptor payload_n3__field_descriptors[2] =
   {
     "ext",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN3, ext),
@@ -1444,9 +1470,9 @@ static const ProtobufCFieldDescriptor data_n4__field_descriptors[3] =
   {
     "litter_conductivity",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN4, has_litter_conductivity),
     offsetof(DataN4, litter_conductivity),
     NULL,
     NULL,
@@ -1456,9 +1482,9 @@ static const ProtobufCFieldDescriptor data_n4__field_descriptors[3] =
   {
     "litter_temperature",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN4, has_litter_temperature),
     offsetof(DataN4, litter_temperature),
     NULL,
     NULL,
@@ -1468,9 +1494,9 @@ static const ProtobufCFieldDescriptor data_n4__field_descriptors[3] =
   {
     "litter_vwc",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_FLOAT,
-    0,   /* quantifier_offset */
+    offsetof(DataN4, has_litter_vwc),
     offsetof(DataN4, litter_vwc),
     NULL,
     NULL,
@@ -1508,7 +1534,7 @@ static const ProtobufCFieldDescriptor payload_n4__field_descriptors[2] =
   {
     "int",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN4, int_),
@@ -1520,7 +1546,7 @@ static const ProtobufCFieldDescriptor payload_n4__field_descriptors[2] =
   {
     "ext",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN4, ext),
@@ -1559,9 +1585,9 @@ static const ProtobufCFieldDescriptor data_n5__field_descriptors[7] =
   {
     "sound_level_min",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN5, has_sound_level_min),
     offsetof(DataN5, sound_level_min),
     NULL,
     NULL,
@@ -1571,9 +1597,9 @@ static const ProtobufCFieldDescriptor data_n5__field_descriptors[7] =
   {
     "sound_level_max",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN5, has_sound_level_max),
     offsetof(DataN5, sound_level_max),
     NULL,
     NULL,
@@ -1583,9 +1609,9 @@ static const ProtobufCFieldDescriptor data_n5__field_descriptors[7] =
   {
     "sound_level_avg",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN5, has_sound_level_avg),
     offsetof(DataN5, sound_level_avg),
     NULL,
     NULL,
@@ -1595,9 +1621,9 @@ static const ProtobufCFieldDescriptor data_n5__field_descriptors[7] =
   {
     "nh3_ppm",
     4,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN5, has_nh3_ppm),
     offsetof(DataN5, nh3_ppm),
     NULL,
     NULL,
@@ -1607,9 +1633,9 @@ static const ProtobufCFieldDescriptor data_n5__field_descriptors[7] =
   {
     "h2s_ppm",
     5,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN5, has_h2s_ppm),
     offsetof(DataN5, h2s_ppm),
     NULL,
     NULL,
@@ -1619,9 +1645,9 @@ static const ProtobufCFieldDescriptor data_n5__field_descriptors[7] =
   {
     "co2_ppm",
     6,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN5, has_co2_ppm),
     offsetof(DataN5, co2_ppm),
     NULL,
     NULL,
@@ -1631,9 +1657,9 @@ static const ProtobufCFieldDescriptor data_n5__field_descriptors[7] =
   {
     "ch4_ppm",
     7,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN5, has_ch4_ppm),
     offsetof(DataN5, ch4_ppm),
     NULL,
     NULL,
@@ -1675,7 +1701,7 @@ static const ProtobufCFieldDescriptor payload_n5__field_descriptors[2] =
   {
     "int",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN5, int_),
@@ -1687,7 +1713,7 @@ static const ProtobufCFieldDescriptor payload_n5__field_descriptors[2] =
   {
     "ext",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN5, ext),
@@ -1726,9 +1752,9 @@ static const ProtobufCFieldDescriptor data_n6__field_descriptors[4] =
   {
     "indoor_wind_speed_min",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN6, has_indoor_wind_speed_min),
     offsetof(DataN6, indoor_wind_speed_min),
     NULL,
     NULL,
@@ -1738,9 +1764,9 @@ static const ProtobufCFieldDescriptor data_n6__field_descriptors[4] =
   {
     "indoor_wind_speed_max",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN6, has_indoor_wind_speed_max),
     offsetof(DataN6, indoor_wind_speed_max),
     NULL,
     NULL,
@@ -1750,9 +1776,9 @@ static const ProtobufCFieldDescriptor data_n6__field_descriptors[4] =
   {
     "indoor_wind_speed",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN6, has_indoor_wind_speed),
     offsetof(DataN6, indoor_wind_speed),
     NULL,
     NULL,
@@ -1762,9 +1788,9 @@ static const ProtobufCFieldDescriptor data_n6__field_descriptors[4] =
   {
     "indoor_wind_direction",
     4,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN6, has_indoor_wind_direction),
     offsetof(DataN6, indoor_wind_direction),
     NULL,
     NULL,
@@ -1803,7 +1829,7 @@ static const ProtobufCFieldDescriptor payload_n6__field_descriptors[2] =
   {
     "int",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN6, int_),
@@ -1815,7 +1841,7 @@ static const ProtobufCFieldDescriptor payload_n6__field_descriptors[2] =
   {
     "ext",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN6, ext),
@@ -1854,9 +1880,9 @@ static const ProtobufCFieldDescriptor data_n7__field_descriptors[1] =
   {
     "dry_contact",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_BOOL,
-    0,   /* quantifier_offset */
+    offsetof(DataN7, has_dry_contact),
     offsetof(DataN7, dry_contact),
     NULL,
     NULL,
@@ -1892,7 +1918,7 @@ static const ProtobufCFieldDescriptor payload_n7__field_descriptors[2] =
   {
     "int",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN7, int_),
@@ -1904,7 +1930,7 @@ static const ProtobufCFieldDescriptor payload_n7__field_descriptors[2] =
   {
     "ext",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN7, ext),
@@ -1943,9 +1969,9 @@ static const ProtobufCFieldDescriptor data_n8__field_descriptors[1] =
   {
     "rele",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_BOOL,
-    0,   /* quantifier_offset */
+    offsetof(DataN8, has_rele),
     offsetof(DataN8, rele),
     NULL,
     NULL,
@@ -1981,7 +2007,7 @@ static const ProtobufCFieldDescriptor payload_n8__field_descriptors[2] =
   {
     "int",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN8, int_),
@@ -1993,7 +2019,7 @@ static const ProtobufCFieldDescriptor payload_n8__field_descriptors[2] =
   {
     "ext",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN8, ext),
@@ -2032,9 +2058,9 @@ static const ProtobufCFieldDescriptor status_gateway__field_descriptors[8] =
   {
     "battery_voltage",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(StatusGateway, has_battery_voltage),
     offsetof(StatusGateway, battery_voltage),
     NULL,
     NULL,
@@ -2044,9 +2070,9 @@ static const ProtobufCFieldDescriptor status_gateway__field_descriptors[8] =
   {
     "battery_current",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(StatusGateway, has_battery_current),
     offsetof(StatusGateway, battery_current),
     NULL,
     NULL,
@@ -2056,9 +2082,9 @@ static const ProtobufCFieldDescriptor status_gateway__field_descriptors[8] =
   {
     "solar_voltage",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(StatusGateway, has_solar_voltage),
     offsetof(StatusGateway, solar_voltage),
     NULL,
     NULL,
@@ -2068,9 +2094,9 @@ static const ProtobufCFieldDescriptor status_gateway__field_descriptors[8] =
   {
     "solar_current",
     4,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(StatusGateway, has_solar_current),
     offsetof(StatusGateway, solar_current),
     NULL,
     NULL,
@@ -2080,9 +2106,9 @@ static const ProtobufCFieldDescriptor status_gateway__field_descriptors[8] =
   {
     "network_type",
     5,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_ENUM,
-    0,   /* quantifier_offset */
+    offsetof(StatusGateway, has_network_type),
     offsetof(StatusGateway, network_type),
     &network__descriptor,
     NULL,
@@ -2092,9 +2118,9 @@ static const ProtobufCFieldDescriptor status_gateway__field_descriptors[8] =
   {
     "signal_strength",
     6,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(StatusGateway, has_signal_strength),
     offsetof(StatusGateway, signal_strength),
     NULL,
     NULL,
@@ -2104,9 +2130,9 @@ static const ProtobufCFieldDescriptor status_gateway__field_descriptors[8] =
   {
     "latitude",
     7,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_DOUBLE,
-    0,   /* quantifier_offset */
+    offsetof(StatusGateway, has_latitude),
     offsetof(StatusGateway, latitude),
     NULL,
     NULL,
@@ -2116,9 +2142,9 @@ static const ProtobufCFieldDescriptor status_gateway__field_descriptors[8] =
   {
     "longitude",
     8,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_DOUBLE,
-    0,   /* quantifier_offset */
+    offsetof(StatusGateway, has_longitude),
     offsetof(StatusGateway, longitude),
     NULL,
     NULL,
@@ -2161,9 +2187,9 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
   {
     "case_temperature",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN9, has_case_temperature),
     offsetof(DataN9, case_temperature),
     NULL,
     NULL,
@@ -2173,9 +2199,9 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
   {
     "case_humidity",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN9, has_case_humidity),
     offsetof(DataN9, case_humidity),
     NULL,
     NULL,
@@ -2185,9 +2211,9 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
   {
     "outdoor_temperature",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN9, has_outdoor_temperature),
     offsetof(DataN9, outdoor_temperature),
     NULL,
     NULL,
@@ -2197,9 +2223,9 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
   {
     "outdoor_humidity",
     4,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN9, has_outdoor_humidity),
     offsetof(DataN9, outdoor_humidity),
     NULL,
     NULL,
@@ -2209,9 +2235,9 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
   {
     "outdoor_wind_speed_min",
     5,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN9, has_outdoor_wind_speed_min),
     offsetof(DataN9, outdoor_wind_speed_min),
     NULL,
     NULL,
@@ -2221,9 +2247,9 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
   {
     "outdoor_wind_speed_max",
     6,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN9, has_outdoor_wind_speed_max),
     offsetof(DataN9, outdoor_wind_speed_max),
     NULL,
     NULL,
@@ -2233,9 +2259,9 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
   {
     "outdoor_wind_speed",
     7,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN9, has_outdoor_wind_speed),
     offsetof(DataN9, outdoor_wind_speed),
     NULL,
     NULL,
@@ -2245,9 +2271,9 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
   {
     "outdoor_wind_direction",
     8,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN9, has_outdoor_wind_direction),
     offsetof(DataN9, outdoor_wind_direction),
     NULL,
     NULL,
@@ -2257,9 +2283,9 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
   {
     "outdoor_rainfall",
     9,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(DataN9, has_outdoor_rainfall),
     offsetof(DataN9, outdoor_rainfall),
     NULL,
     NULL,
@@ -2303,7 +2329,7 @@ static const ProtobufCFieldDescriptor payload_n9__field_descriptors[2] =
   {
     "gwInfo",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN9, gwinfo),
@@ -2315,7 +2341,7 @@ static const ProtobufCFieldDescriptor payload_n9__field_descriptors[2] =
   {
     "ext",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(PayloadN9, ext),
@@ -2354,9 +2380,9 @@ static const ProtobufCFieldDescriptor payload_n10__field_descriptors[5] =
   {
     "latitude",
     1,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_DOUBLE,
-    0,   /* quantifier_offset */
+    offsetof(PayloadN10, has_latitude),
     offsetof(PayloadN10, latitude),
     NULL,
     NULL,
@@ -2366,9 +2392,9 @@ static const ProtobufCFieldDescriptor payload_n10__field_descriptors[5] =
   {
     "longitude",
     2,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_DOUBLE,
-    0,   /* quantifier_offset */
+    offsetof(PayloadN10, has_longitude),
     offsetof(PayloadN10, longitude),
     NULL,
     NULL,
@@ -2378,9 +2404,9 @@ static const ProtobufCFieldDescriptor payload_n10__field_descriptors[5] =
   {
     "case_temperature",
     3,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_INT32,
-    0,   /* quantifier_offset */
+    offsetof(PayloadN10, has_case_temperature),
     offsetof(PayloadN10, case_temperature),
     NULL,
     NULL,
@@ -2390,9 +2416,9 @@ static const ProtobufCFieldDescriptor payload_n10__field_descriptors[5] =
   {
     "case_humidity",
     4,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
+    offsetof(PayloadN10, has_case_humidity),
     offsetof(PayloadN10, case_humidity),
     NULL,
     NULL,

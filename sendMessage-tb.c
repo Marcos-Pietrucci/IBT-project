@@ -4,7 +4,7 @@
 #include <time.h>
 
 #include "gala.pb-c.c"
-#define N 1000
+#define N 10
 
 int nOfBits(int n){
   int c=0;
@@ -57,19 +57,39 @@ int main (int argc, const char * argv[])
 
     unsigned totBits = 0; //bits required for data transmitted in this payload
 
+    info.has_battery_voltage = 1;
     info.battery_voltage = rand()%12; // Values are "randomized" in a possible range
     totBits += nOfBits(info.battery_voltage);
+
+    info.has_fw_version = 1;
     info.fw_version = rand()%100;
     totBits += nOfBits(info.fw_version);
+    
+    info.has_packet_rolling_num =1;
     info.packet_rolling_num = rand()%10000;
     totBits += nOfBits(info.packet_rolling_num);
+    
+    info.has_nodeid =1;
+    info.nodeid = rand()%100000;
+    totBits += nOfBits(info.nodeid);
+    
+    info.has_unixtime =1;
+    info.unixtime = rand();
+    totBits += nOfBits(info.unixtime);
 
+    data.has_indoor_wb_temperature =1;
     data.indoor_wb_temperature = (rand()%40)*( (rand()%2) ? 1:-1);
     totBits += nOfBits(data.indoor_wb_temperature);
+    
+    data.has_indoor_light =1;
     data.indoor_light = rand()%100000;
     totBits += nOfBits(data.indoor_light);
+    
+    data.has_indoor_humidity =1;
     data.indoor_humidity = rand()%100;
     totBits += nOfBits(data.indoor_humidity);
+    
+    data.has_indoor_db_temperature =1;
     data.indoor_db_temperature = (rand()%40)*( (rand()%2) ? 1:-1);
     totBits += nOfBits(data.indoor_db_temperature);
 

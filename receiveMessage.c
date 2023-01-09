@@ -6,6 +6,9 @@
 
 #define MAX_MSG_SIZE 1024
 
+#define printField(message, field) (message->has_##field ? printf("  " #field ": %d\n", message->field):0);
+
+
 static size_t
 read_buffer (unsigned max_length, uint8_t *out)
 {
@@ -48,16 +51,18 @@ int main (int argc, const char * argv[])
 
   printf("Received data\n NodeInfos:\n");
 
-  printf("  battery_voltage: %d\n", info->battery_voltage);
-  printf("  fw_version: %d\n", info->fw_version);
-  printf("  packet_rolling_num: %d\n", info->packet_rolling_num);
+  printField(info, battery_voltage);
+  printField(info, fw_version);
+  printField(info, packet_rolling_num);
+  printField(info, nodeid);
+  printField(info, unixtime);
 
   printf("\n DataN1:\n");
 
-  printf("  indoor_wb_temperature: %d\n", data->indoor_wb_temperature);
-  printf("  indoor_light: %d\n", data->indoor_light);
-  printf("  indoor_humidity: %d\n", data->indoor_humidity);
-  printf("  indoor_db_temperature: %d\n", data->indoor_db_temperature);
+  printField(data, indoor_wb_temperature);
+  printField(data, indoor_light);
+  printField(data, indoor_humidity);
+  printField(data, indoor_db_temperature);
 
   // Free the unpacked message
   payload_n1__free_unpacked(msg, NULL);

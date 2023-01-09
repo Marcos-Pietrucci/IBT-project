@@ -55,26 +55,37 @@ typedef enum _Network {
 struct  NodeInfos
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_battery_voltage;
   uint32_t battery_voltage;
+  protobuf_c_boolean has_fw_version;
   uint32_t fw_version;
+  protobuf_c_boolean has_packet_rolling_num;
   uint32_t packet_rolling_num;
+  protobuf_c_boolean has_nodeid;
+  uint32_t nodeid;
+  protobuf_c_boolean has_unixtime;
+  uint32_t unixtime;
 };
 #define NODE_INFOS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&node_infos__descriptor) \
-    , 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
 
 struct  DataN1
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_indoor_wb_temperature;
   int32_t indoor_wb_temperature;
+  protobuf_c_boolean has_indoor_light;
   uint32_t indoor_light;
+  protobuf_c_boolean has_indoor_humidity;
   uint32_t indoor_humidity;
+  protobuf_c_boolean has_indoor_db_temperature;
   int32_t indoor_db_temperature;
 };
 #define DATA_N1__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n1__descriptor) \
-    , 0, 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0 }
 
 
 struct  PayloadN1
@@ -91,21 +102,27 @@ struct  PayloadN1
 struct  DataN2
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_bma_reset_counter;
   uint32_t bma_reset_counter;
+  protobuf_c_boolean has_cow_shock_conunt;
   uint32_t cow_shock_conunt;
+  protobuf_c_boolean has_cow_temperature_min;
   uint32_t cow_temperature_min;
+  protobuf_c_boolean has_cow_temperature_max;
   uint32_t cow_temperature_max;
+  protobuf_c_boolean has_cow_temperature_ave;
   uint32_t cow_temperature_ave;
   /*
    * zero or more values
    */
   size_t n_cow_features_set_0_fx;
   float *cow_features_set_0_fx;
+  protobuf_c_boolean has_behaviour_classes;
   uint32_t behaviour_classes;
 };
 #define DATA_N2__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n2__descriptor) \
-    , 0, 0, 0, 0, 0, 0,NULL, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,NULL, 0, 0 }
 
 
 struct  PayloadN2
@@ -122,14 +139,18 @@ struct  PayloadN2
 struct  DataN3
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_drinking_water_volume_cumulated;
   uint32_t drinking_water_volume_cumulated;
+  protobuf_c_boolean has_drinking_water_temperature;
   int32_t drinking_water_temperature;
+  protobuf_c_boolean has_sprinkler_water_volume_cumulated;
   uint32_t sprinkler_water_volume_cumulated;
+  protobuf_c_boolean has_sprinkler_water_temperature;
   int32_t sprinkler_water_temperature;
 };
 #define DATA_N3__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n3__descriptor) \
-    , 0, 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0 }
 
 
 struct  PayloadN3
@@ -146,13 +167,16 @@ struct  PayloadN3
 struct  DataN4
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_litter_conductivity;
   uint32_t litter_conductivity;
+  protobuf_c_boolean has_litter_temperature;
   int32_t litter_temperature;
+  protobuf_c_boolean has_litter_vwc;
   float litter_vwc;
 };
 #define DATA_N4__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n4__descriptor) \
-    , 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0 }
 
 
 struct  PayloadN4
@@ -169,17 +193,24 @@ struct  PayloadN4
 struct  DataN5
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_sound_level_min;
   uint32_t sound_level_min;
+  protobuf_c_boolean has_sound_level_max;
   uint32_t sound_level_max;
+  protobuf_c_boolean has_sound_level_avg;
   uint32_t sound_level_avg;
+  protobuf_c_boolean has_nh3_ppm;
   uint32_t nh3_ppm;
+  protobuf_c_boolean has_h2s_ppm;
   uint32_t h2s_ppm;
+  protobuf_c_boolean has_co2_ppm;
   uint32_t co2_ppm;
+  protobuf_c_boolean has_ch4_ppm;
   uint32_t ch4_ppm;
 };
 #define DATA_N5__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n5__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
 
 struct  PayloadN5
@@ -196,14 +227,18 @@ struct  PayloadN5
 struct  DataN6
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_indoor_wind_speed_min;
   uint32_t indoor_wind_speed_min;
+  protobuf_c_boolean has_indoor_wind_speed_max;
   uint32_t indoor_wind_speed_max;
+  protobuf_c_boolean has_indoor_wind_speed;
   uint32_t indoor_wind_speed;
+  protobuf_c_boolean has_indoor_wind_direction;
   uint32_t indoor_wind_direction;
 };
 #define DATA_N6__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n6__descriptor) \
-    , 0, 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0 }
 
 
 struct  PayloadN6
@@ -220,11 +255,12 @@ struct  PayloadN6
 struct  DataN7
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_dry_contact;
   protobuf_c_boolean dry_contact;
 };
 #define DATA_N7__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n7__descriptor) \
-    , 0 }
+    , 0, 0 }
 
 
 struct  PayloadN7
@@ -241,11 +277,12 @@ struct  PayloadN7
 struct  DataN8
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_rele;
   protobuf_c_boolean rele;
 };
 #define DATA_N8__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n8__descriptor) \
-    , 0 }
+    , 0, 0 }
 
 
 struct  PayloadN8
@@ -262,36 +299,53 @@ struct  PayloadN8
 struct  StatusGateway
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_battery_voltage;
   uint32_t battery_voltage;
+  protobuf_c_boolean has_battery_current;
   uint32_t battery_current;
+  protobuf_c_boolean has_solar_voltage;
   uint32_t solar_voltage;
+  protobuf_c_boolean has_solar_current;
   uint32_t solar_current;
+  protobuf_c_boolean has_network_type;
   Network network_type;
+  protobuf_c_boolean has_signal_strength;
   uint32_t signal_strength;
+  protobuf_c_boolean has_latitude;
   double latitude;
+  protobuf_c_boolean has_longitude;
   double longitude;
 };
 #define STATUS_GATEWAY__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&status_gateway__descriptor) \
-    , 0, 0, 0, 0, NETWORK__GPRS, 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0, NETWORK__GPRS, 0, 0, 0, 0, 0, 0 }
 
 
 struct  DataN9
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_case_temperature;
   int32_t case_temperature;
+  protobuf_c_boolean has_case_humidity;
   uint32_t case_humidity;
+  protobuf_c_boolean has_outdoor_temperature;
   int32_t outdoor_temperature;
+  protobuf_c_boolean has_outdoor_humidity;
   uint32_t outdoor_humidity;
+  protobuf_c_boolean has_outdoor_wind_speed_min;
   uint32_t outdoor_wind_speed_min;
+  protobuf_c_boolean has_outdoor_wind_speed_max;
   uint32_t outdoor_wind_speed_max;
+  protobuf_c_boolean has_outdoor_wind_speed;
   uint32_t outdoor_wind_speed;
+  protobuf_c_boolean has_outdoor_wind_direction;
   uint32_t outdoor_wind_direction;
+  protobuf_c_boolean has_outdoor_rainfall;
   uint32_t outdoor_rainfall;
 };
 #define DATA_N9__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n9__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
 
 struct  PayloadN9
@@ -308,16 +362,20 @@ struct  PayloadN9
 struct  PayloadN10
 {
   ProtobufCMessage base;
+  protobuf_c_boolean has_latitude;
   double latitude;
+  protobuf_c_boolean has_longitude;
   double longitude;
+  protobuf_c_boolean has_case_temperature;
   int32_t case_temperature;
+  protobuf_c_boolean has_case_humidity;
   uint32_t case_humidity;
   size_t n_indoor_insects_count_packed;
   uint32_t *indoor_insects_count_packed;
 };
 #define PAYLOAD_N10__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&payload_n10__descriptor) \
-    , 0, 0, 0, 0, 0,NULL }
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0,NULL }
 
 
 /* NodeInfos methods */
