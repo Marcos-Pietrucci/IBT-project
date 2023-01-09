@@ -4,6 +4,7 @@
 #include <time.h>
 
 #include "gala.pb-c.c"
+#define N 1000
 
 int nOfBits(int n){
   int c=0;
@@ -13,7 +14,7 @@ int nOfBits(int n){
     if( (1 << i) & n)
       c=i;
   }
-  return c;
+  return c+1;
 }
 
 void wToFile(void *buf, unsigned len, unsigned index){
@@ -36,19 +37,27 @@ void wToFile(void *buf, unsigned len, unsigned index){
 
 int main (int argc, const char * argv[]) 
 {
+  if (argc==1){
+    printf("Usage %s [outputFlag]\n  [outputFlag]\n\tf\tWrite files with buffer\n\tn\tDon't save files\n", argv[0]);
+    return 0;
+  }
+
   srand(time(NULL));                // Initialization, should only be called once.
-  PayloadN1 msg = PAYLOAD_N1__INIT; // AMessage
   void *buf;                        // Buffer to store serialized data
   unsigned len;                     // Length of serialized data
-  NodeInfos info = NODE_INFOS__INIT;
-  DataN1 data = DATA_N1__INIT;
-  int avg=0;
 
-  for(int i=0; i<1000; i++){
+  PayloadN1 msg = PAYLOAD_N1__INIT; // Initialize payload message
+  NodeInfos info = NODE_INFOS__INIT;// Initialize info message
+  DataN1 data = DATA_N1__INIT;      // Initialize data message
 
-    unsigned totBits = 0;
+  int avg=0;  //average overhead
 
-    info.battery_voltage = rand()%12;
+  //I test N payloads and calculate an avg overhead
+  for(int i=0; i<N; i++){
+
+    unsigned totBits = 0; //bits required for data transmitted in this payload
+
+    info.battery_voltage = rand()%12; // Values are "randomized" in a possible range
     totBits += nOfBits(info.battery_voltage);
     info.fw_version = rand()%100;
     totBits += nOfBits(info.fw_version);
@@ -68,16 +77,19 @@ int main (int argc, const char * argv[])
     msg.ext  = &data;
 
     len = payload_n1__get_packed_size(&msg);
-    
-    buf = malloc(len);
-    payload_n1__pack(&msg,buf);
-    
-    fprintf(stderr,"Writing %d serialized bytes, total bits: %d, overhead:  %2.f \n",len, totBits, len - totBits/8.0); // See the length of message
-    wToFile(buf, len, i);
     avg += len-(totBits/8.0);
+    fprintf(stderr,"%d - Writing %d serialized bytes, total bits: %d, overhead:  %2.f \n", i+1, len, totBits, len - totBits/8.0); // See the length of message
 
-    free(buf); // Free the allocated serialized buffer
+    if (argc==2 && argv[1][0]=='f'){
+      buf = malloc(len);
+      payload_n1__pack(&msg, buf);
+      
+      wToFile(buf, len, i);
+
+      free(buf);  // Free the allocated serialized buffer
+    }
   }
-  fprintf(stderr,"1000 tries, avg overhead:%2.f bytes\n",avg/1000.0); // See the length of message
+
+  fprintf(stderr,"Test result: %d tries, avg overhead:%2.f bytes\n", N, (float)avg/N);
   return 0;
 }
