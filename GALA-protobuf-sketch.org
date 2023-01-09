@@ -37,10 +37,21 @@
   - define =Network= enumeration's values
 
 ** Protobuf version
-Specify which protobuf version to use
+   Specify which protobuf version to use
 
 #+begin_src protobuf
   syntax = "proto2";
+#+end_src
+
+** CommonHeader
+   These fields form the packet header each message and are used for
+   nodes and messages info
+
+#+begin_src protobuf
+  message CommonHeader {
+    optional uint32 node_id = 1;
+    optional uint32 unix_time = 2;
+  }
 #+end_src
 
 ** NodeInfos
@@ -51,9 +62,9 @@ Specify which protobuf version to use
 
 #+begin_src protobuf
   message NodeInfos {
-    required uint32 battery_voltage = 1;
-    required uint32 fw_version = 2;
-    required uint32  packet_rolling_num = 3;
+    optional uint32 battery_voltage = 1;
+    optional uint32 fw_version = 2;
+    optional uint32 packet_rolling_num = 3;
   }
 #+end_src
 
@@ -66,15 +77,16 @@ Specify which protobuf version to use
   
 #+begin_src protobuf
   message DataN1 {
-    required sint32 indoor_wb_temperature = 1;
-    required uint32 indoor_light = 2;
-    required uint32 indoor_humidity = 3;
-    required sint32 indoor_db_temperature = 4;
+    optional sint32 indoor_wb_temperature = 1;
+    optional uint32 indoor_light = 2;
+    optional uint32 indoor_humidity = 3;
+    optional sint32 indoor_db_temperature = 4;
   }
   
   message PayloadN1 {
-    required NodeInfos int = 1;
-    required DataN1 ext = 2;
+    optional CommonHeader head = 1;
+    optional NodeInfos int = 2;
+    optional DataN1 ext = 3;
   }
 #+end_src
 
@@ -95,18 +107,19 @@ Specify which protobuf version to use
 
 #+begin_src protobuf
   message DataN2 {
-    required uint32  bma_reset_counter = 1;
-    required uint32  cow_shock_conunt = 2;
-    required uint32  cow_temperature_min = 3;
-    required uint32  cow_temperature_max = 4;
-    required uint32  cow_temperature_ave = 5;
+    optional uint32 bma_reset_counter = 1;
+    optional uint32 cow_shock_conunt = 2;
+    optional uint32 cow_temperature_min = 3;
+    optional uint32 cow_temperature_max = 4;
+    optional uint32 cow_temperature_ave = 5;
     repeated float  cow_features_set_0_fx = 6 [packed = true]; // zero or more values
-    required uint32 behaviour_classes = 7;
+    optional uint32 behaviour_classes = 7;
   }
   
   message PayloadN2 {
-    required NodeInfos int = 1;
-    required DataN2 ext = 2;
+    optional CommonHeader head = 1;
+    optional NodeInfos int = 2;
+    optional DataN2 ext = 3;
   }
 #+end_src
 
@@ -117,15 +130,16 @@ Specify which protobuf version to use
 
 #+begin_src protobuf
   message DataN3 {
-    required uint32 drinking_water_volume_cumulated = 1;
-    required sint32 drinking_water_temperature = 2;
-    required uint32 sprinkler_water_volume_cumulated = 3;
-    required sint32 sprinkler_water_temperature = 4;
+    optional uint32 drinking_water_volume_cumulated = 1;
+    optional sint32 drinking_water_temperature = 2;
+    optional uint32 sprinkler_water_volume_cumulated = 3;
+    optional sint32 sprinkler_water_temperature = 4;
   }
 
   message PayloadN3 {
-    required NodeInfos int = 1;
-    required DataN3 ext = 2;
+    optional CommonHeader head = 1;
+    optional NodeInfos int = 2;
+    optional DataN3 ext = 3;
   }
 #+end_src
 
@@ -137,14 +151,15 @@ Specify which protobuf version to use
 
 #+begin_src protobuf
   message DataN4 {
-    required uint32 litter_conductivity = 1;
-    required sint32 litter_temperature = 2;
-    required float  litter_vwc = 3;
+    optional uint32 litter_conductivity = 1;
+    optional sint32 litter_temperature = 2;
+    optional float  litter_vwc = 3;
   }
 
   message PayloadN4 {
-    required NodeInfos int = 1;
-    required DataN4 ext = 2;
+    optional CommonHeader head = 1;
+    optional NodeInfos int = 2;
+    optional DataN4 ext = 3;
   }
 #+end_src
 
@@ -157,18 +172,19 @@ Specify which protobuf version to use
 
 #+begin_src protobuf
   message DataN5 {
-    required uint32  sound_level_min = 1;
-    required uint32  sound_level_max = 2;
-    required uint32  sound_level_avg = 3;
-    required uint32 nh3_ppm = 4;
-    required uint32 h2s_ppm = 5;
-    required uint32 co2_ppm = 6;
-    required uint32 ch4_ppm = 7;
+    optional uint32 sound_level_min = 1;
+    optional uint32 sound_level_max = 2;
+    optional uint32 sound_level_avg = 3;
+    optional uint32 nh3_ppm = 4;
+    optional uint32 h2s_ppm = 5;
+    optional uint32 co2_ppm = 6;
+    optional uint32 ch4_ppm = 7;
   }
     
   message PayloadN5 {
-    required NodeInfos int = 1;
-    required DataN5 ext = 2;
+    optional CommonHeader head = 1;
+    optional NodeInfos int = 2;
+    optional DataN5 ext = 3;
   }
 #+end_src
 
@@ -179,15 +195,16 @@ Specify which protobuf version to use
 
 #+begin_src protobuf
   message DataN6 {
-    required uint32 indoor_wind_speed_min = 1;
-    required uint32 indoor_wind_speed_max = 2;
-    required uint32 indoor_wind_speed = 3;
-    required uint32 indoor_wind_direction= 4;
+    optional uint32 indoor_wind_speed_min = 1;
+    optional uint32 indoor_wind_speed_max = 2;
+    optional uint32 indoor_wind_speed = 3;
+    optional uint32 indoor_wind_direction= 4;
   }
 
   message PayloadN6 {
-    required NodeInfos int = 1;
-    required DataN6 ext = 2;
+    optional CommonHeader head = 1;
+    optional NodeInfos int = 2;
+    optional DataN6 ext = 3;
   }
 #+end_src
 
@@ -202,12 +219,13 @@ Specify which protobuf version to use
   }
 
   message DataN7 {
-    required State dry_contact = 1;
+    optional State dry_contact = 1;
   }
 
   message PayloadN7 {
-    required NodeInfos int = 1;
-    required DataN7 ext = 2;
+    optional CommonHeader head = 1;
+    optional NodeInfos int = 2;
+    optional DataN7 ext = 3;
   }
 #+end_src
 
@@ -224,12 +242,13 @@ Specify which protobuf version to use
 
 #+begin_src protobuf
   message DataN8 {
-    required State rele = 1;
+    optional State rele = 1;
   }
 
   message PayloadN8 {
-    required NodeInfos int = 1;
-    required DataN8 ext = 2;
+    optional CommonHeader head = 1;
+    optional NodeInfos int = 2;
+    optional DataN8 ext = 3;
   }
 #+end_src
 
@@ -244,31 +263,32 @@ Specify which protobuf version to use
   }
 
   message StatusGateway {
-    required uint32 battery_voltage = 1;
-    required uint32 battery_current = 2;
-    required uint32 solar_voltage = 3;
-    required uint32 solar_current = 4;
-    required Network network_type = 5;
-    required uint32  signal_strength = 6;
-    required double latitude = 7;
-    required double longitude = 8;
+    optional uint32  battery_voltage = 1;
+    optional uint32  battery_current = 2;
+    optional uint32  solar_voltage = 3;
+    optional uint32  solar_current = 4;
+    optional Network network_type = 5;
+    optional uint32  signal_strength = 6;
+    optional double  latitude = 7;
+    optional double  longitude = 8;
   }
 
   message DataN9 {
-    required sint32 case_temperature = 1;
-    required uint32 case_humidity = 2;
-    required sint32 outdoor_temperature = 3;
-    required uint32 outdoor_humidity = 4;
-    required uint32 outdoor_wind_speed_min = 5;
-    required uint32 outdoor_wind_speed_max = 6;
-    required uint32 outdoor_wind_speed = 7;
-    required uint32 outdoor_wind_direction = 8;
-    required uint32 outdoor_rainfall = 9;
+    optional sint32 case_temperature = 1;
+    optional uint32 case_humidity = 2;
+    optional sint32 outdoor_temperature = 3;
+    optional uint32 outdoor_humidity = 4;
+    optional uint32 outdoor_wind_speed_min = 5;
+    optional uint32 outdoor_wind_speed_max = 6;
+    optional uint32 outdoor_wind_speed = 7;
+    optional uint32 outdoor_wind_direction = 8;
+    optional uint32 outdoor_rainfall = 9;
   }
 
   message PayloadN9 {
-    required StatusGateway int = 1;
-    required DataN9 ext = 2;
+    optional CommonHeader head = 1;
+    optional StatusGateway int = 2;
+    optional DataN9 ext = 3;
   } 
 #+end_src
 
@@ -276,11 +296,12 @@ Specify which protobuf version to use
    N10 node sends additional data about environment
 #+begin_src protobuf
   message PayloadN10 {
-    required double latitude = 1;
-    required double longitude = 2;
-    required sint32 case_temperature = 3;
-    required uint32 case_humidity = 4;
-    repeated uint32  indoor_insects_count_packed = 5;
+    optional CommonHeader head = 1;
+    optional double latitude = 2;
+    optional double longitude = 3;
+    optional sint32 case_temperature = 4;
+    optional uint32 case_humidity = 5;
+    repeated uint32 indoor_insects_count_packed = 6;
   }
 #+end_src
 
