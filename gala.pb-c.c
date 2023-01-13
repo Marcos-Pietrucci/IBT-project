@@ -952,6 +952,51 @@ void   payload_n10__free_unpacked
   assert(message->base.descriptor == &payload_n10__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   blob_message__init
+                     (BlobMessage         *message)
+{
+  static const BlobMessage init_value = BLOB_MESSAGE__INIT;
+  *message = init_value;
+}
+size_t blob_message__get_packed_size
+                     (const BlobMessage *message)
+{
+  assert(message->base.descriptor == &blob_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t blob_message__pack
+                     (const BlobMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &blob_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t blob_message__pack_to_buffer
+                     (const BlobMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &blob_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+BlobMessage *
+       blob_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (BlobMessage *)
+     protobuf_c_message_unpack (&blob_message__descriptor,
+                                allocator, len, data);
+}
+void   blob_message__free_unpacked
+                     (BlobMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &blob_message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 static const ProtobufCFieldDescriptor node_infos__field_descriptors[5] =
 {
   {
@@ -1735,7 +1780,7 @@ static const ProtobufCIntRange payload_n5__number_ranges[1 + 1] =
 const ProtobufCMessageDescriptor payload_n5__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "payloadN5",
+  "PayloadN5",
   "PayloadN5",
   "PayloadN5",
   "",
@@ -2463,6 +2508,161 @@ const ProtobufCMessageDescriptor payload_n10__descriptor =
   payload_n10__field_indices_by_name,
   1,  payload_n10__number_ranges,
   (ProtobufCMessageInit) payload_n10__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor blob_message__field_descriptors[10] =
+{
+  {
+    "node1_messages",
+    1,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node1_messages),
+    offsetof(BlobMessage, node1_messages),
+    &payload_n1__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "node2_messages",
+    2,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node2_messages),
+    offsetof(BlobMessage, node2_messages),
+    &payload_n2__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "node3_messages",
+    3,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node3_messages),
+    offsetof(BlobMessage, node3_messages),
+    &payload_n3__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "node4_messages",
+    4,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node4_messages),
+    offsetof(BlobMessage, node4_messages),
+    &payload_n4__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "node5_messages",
+    5,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node5_messages),
+    offsetof(BlobMessage, node5_messages),
+    &payload_n5__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "node6_messages",
+    6,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node6_messages),
+    offsetof(BlobMessage, node6_messages),
+    &payload_n6__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "node7_messages",
+    7,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node7_messages),
+    offsetof(BlobMessage, node7_messages),
+    &payload_n7__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "node8_messages",
+    8,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node8_messages),
+    offsetof(BlobMessage, node8_messages),
+    &payload_n8__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "node9_messages",
+    9,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node9_messages),
+    offsetof(BlobMessage, node9_messages),
+    &payload_n9__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "node10_messages",
+    10,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(BlobMessage, n_node10_messages),
+    offsetof(BlobMessage, node10_messages),
+    &payload_n10__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned blob_message__field_indices_by_name[] = {
+  9,   /* field[9] = node10_messages */
+  0,   /* field[0] = node1_messages */
+  1,   /* field[1] = node2_messages */
+  2,   /* field[2] = node3_messages */
+  3,   /* field[3] = node4_messages */
+  4,   /* field[4] = node5_messages */
+  5,   /* field[5] = node6_messages */
+  6,   /* field[6] = node7_messages */
+  7,   /* field[7] = node8_messages */
+  8,   /* field[8] = node9_messages */
+};
+static const ProtobufCIntRange blob_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 10 }
+};
+const ProtobufCMessageDescriptor blob_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "BlobMessage",
+  "BlobMessage",
+  "BlobMessage",
+  "",
+  sizeof(BlobMessage),
+  10,
+  blob_message__field_descriptors,
+  blob_message__field_indices_by_name,
+  1,  blob_message__number_ranges,
+  (ProtobufCMessageInit) blob_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCEnumValue network__enum_values_by_number[3] =

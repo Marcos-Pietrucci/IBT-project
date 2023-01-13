@@ -68,7 +68,7 @@ message DataN5 {
   optional uint32  ch4_ppm = 7;
 }
   
-message payloadN5 {
+message PayloadN5 {
   optional NodeInfos int = 1;
   optional DataN5 ext = 2;
 }
@@ -144,4 +144,18 @@ message PayloadN10 {
   optional int32  case_temperature = 3;
   optional uint32 case_humidity = 4;
   repeated uint32 indoor_insects_count_packed = 5;
+}
+
+//Contains all messages payload
+message BlobMessage {
+  repeated PayloadN1  node1_messages  =  1;
+  repeated PayloadN2  node2_messages  =  2;
+  repeated PayloadN3  node3_messages  =  3;
+  repeated PayloadN4  node4_messages  =  4;
+  repeated PayloadN5  node5_messages  =  5;
+  repeated PayloadN6  node6_messages  =  6;
+  repeated PayloadN7  node7_messages  =  7;
+  repeated PayloadN8  node8_messages  =  8;
+  repeated PayloadN9  node9_messages  =  9;
+  repeated PayloadN10 node10_messages = 10;
 }

@@ -36,6 +36,7 @@ typedef struct StatusGateway StatusGateway;
 typedef struct DataN9 DataN9;
 typedef struct PayloadN9 PayloadN9;
 typedef struct PayloadN10 PayloadN10;
+typedef struct BlobMessage BlobMessage;
 
 
 /* --- enums --- */
@@ -376,6 +377,38 @@ struct  PayloadN10
 #define PAYLOAD_N10__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&payload_n10__descriptor) \
     , 0, 0, 0, 0, 0, 0, 0, 0, 0,NULL }
+
+
+/*
+ *Contains all messages payload
+ */
+struct  BlobMessage
+{
+  ProtobufCMessage base;
+  size_t n_node1_messages;
+  PayloadN1 **node1_messages;
+  size_t n_node2_messages;
+  PayloadN2 **node2_messages;
+  size_t n_node3_messages;
+  PayloadN3 **node3_messages;
+  size_t n_node4_messages;
+  PayloadN4 **node4_messages;
+  size_t n_node5_messages;
+  PayloadN5 **node5_messages;
+  size_t n_node6_messages;
+  PayloadN6 **node6_messages;
+  size_t n_node7_messages;
+  PayloadN7 **node7_messages;
+  size_t n_node8_messages;
+  PayloadN8 **node8_messages;
+  size_t n_node9_messages;
+  PayloadN9 **node9_messages;
+  size_t n_node10_messages;
+  PayloadN10 **node10_messages;
+};
+#define BLOB_MESSAGE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&blob_message__descriptor) \
+    , 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
 
 
 /* NodeInfos methods */
@@ -777,6 +810,25 @@ PayloadN10 *
 void   payload_n10__free_unpacked
                      (PayloadN10 *message,
                       ProtobufCAllocator *allocator);
+/* BlobMessage methods */
+void   blob_message__init
+                     (BlobMessage         *message);
+size_t blob_message__get_packed_size
+                     (const BlobMessage   *message);
+size_t blob_message__pack
+                     (const BlobMessage   *message,
+                      uint8_t             *out);
+size_t blob_message__pack_to_buffer
+                     (const BlobMessage   *message,
+                      ProtobufCBuffer     *buffer);
+BlobMessage *
+       blob_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   blob_message__free_unpacked
+                     (BlobMessage *message,
+                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
 typedef void (*NodeInfos_Closure)
@@ -842,6 +894,9 @@ typedef void (*PayloadN9_Closure)
 typedef void (*PayloadN10_Closure)
                  (const PayloadN10 *message,
                   void *closure_data);
+typedef void (*BlobMessage_Closure)
+                 (const BlobMessage *message,
+                  void *closure_data);
 
 /* --- services --- */
 
@@ -870,6 +925,7 @@ extern const ProtobufCMessageDescriptor status_gateway__descriptor;
 extern const ProtobufCMessageDescriptor data_n9__descriptor;
 extern const ProtobufCMessageDescriptor payload_n9__descriptor;
 extern const ProtobufCMessageDescriptor payload_n10__descriptor;
+extern const ProtobufCMessageDescriptor blob_message__descriptor;
 
 PROTOBUF_C__END_DECLS
 

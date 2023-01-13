@@ -4,7 +4,7 @@
 #include <time.h>
 
 #include "gala.pb-c.c"
-#define N 10
+unsigned N = 10;
 
 int nOfBits(int n){
   int c=0;
@@ -38,8 +38,11 @@ void wToFile(void *buf, unsigned len, unsigned index){
 int main (int argc, const char * argv[]) 
 {
   if (argc==1){
-    printf("Usage %s [outputFlag]\n  [outputFlag]\n\tf\tWrite files with buffer\n\tn\tDon't save files\n", argv[0]);
+    printf("Usage %s [outputFlag] [numOfTries]\n  [outputFlag]\n\tf\tWrite files with buffer\n\tn\tDon't save files\n  [numOfTries]\n\t\t(optional)", argv[0]);
     return 0;
+  }
+  if (argc==3){
+    N = atoi(argv[2]);
   }
 
   srand(time(NULL));                // Initialization, should only be called once.
@@ -100,7 +103,7 @@ int main (int argc, const char * argv[])
     avg += len-(totBits/8.0);
     fprintf(stderr,"%d - Writing %d serialized bytes, total bits: %d, overhead:  %2.f \n", i+1, len, totBits, len - totBits/8.0); // See the length of message
 
-    if (argc==2 && argv[1][0]=='f'){
+    if (argc>=2 && argv[1][0]=='f'){
       buf = malloc(len);
       payload_n1__pack(&msg, buf);
       
