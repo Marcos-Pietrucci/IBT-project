@@ -1,0 +1,176 @@
+syntax = "proto2";
+
+message CommonHeader {
+  optional uint32 node_id = 1;
+  optional uint32 unix_time = 2;
+}
+
+message NodeInfos {
+  optional uint32 battery_voltage = 1;
+  optional uint32 fw_version = 2;
+  optional uint32 packet_rolling_num = 3;
+}
+
+message DataN1 {
+  optional sint32 indoor_wb_temperature = 1;
+  optional uint32 indoor_light = 2;
+  optional uint32 indoor_humidity = 3;
+  optional sint32 indoor_db_temperature = 4;
+}
+
+message PayloadN1 {
+  optional CommonHeader head = 1;
+  optional NodeInfos int = 2;
+  optional DataN1 ext = 3;
+}
+
+message DataN2 {
+  optional uint32 bma_reset_counter = 1;
+  optional uint32 cow_shock_conunt = 2;
+  optional uint32 cow_temperature_min = 3;
+  optional uint32 cow_temperature_max = 4;
+  optional uint32 cow_temperature_ave = 5;
+  repeated float  cow_features_set_0_fx = 6 [packed = true]; // zero or more values
+  optional uint32 behaviour_classes = 7;
+}
+
+message PayloadN2 {
+  optional CommonHeader head = 1;
+  optional NodeInfos int = 2;
+  optional DataN2 ext = 3;
+}
+
+message DataN3 {
+  optional uint32 drinking_water_volume_cumulated = 1;
+  optional sint32 drinking_water_temperature = 2;
+  optional uint32 sprinkler_water_volume_cumulated = 3;
+  optional sint32 sprinkler_water_temperature = 4;
+}
+
+message PayloadN3 {
+  optional CommonHeader head = 1;
+  optional NodeInfos int = 2;
+  optional DataN3 ext = 3;
+}
+
+message DataN4 {
+  optional uint32 litter_conductivity = 1;
+  optional sint32 litter_temperature = 2;
+  optional float  litter_vwc = 3;
+}
+
+message PayloadN4 {
+  optional CommonHeader head = 1;
+  optional NodeInfos int = 2;
+  optional DataN4 ext = 3;
+}
+
+message DataN5 {
+  optional uint32 sound_level_min = 1;
+  optional uint32 sound_level_max = 2;
+  optional uint32 sound_level_avg = 3;
+  optional uint32 nh3_ppm = 4;
+  optional uint32 h2s_ppm = 5;
+  optional uint32 co2_ppm = 6;
+  optional uint32 ch4_ppm = 7;
+}
+
+message PayloadN5 {
+  optional CommonHeader head = 1;
+  optional NodeInfos int = 2;
+  optional DataN5 ext = 3;
+}
+
+message DataN6 {
+  optional uint32 indoor_wind_speed_min = 1;
+  optional uint32 indoor_wind_speed_max = 2;
+  optional uint32 indoor_wind_speed = 3;
+  optional uint32 indoor_wind_direction= 4;
+}
+
+message PayloadN6 {
+  optional CommonHeader head = 1;
+  optional NodeInfos int = 2;
+  optional DataN6 ext = 3;
+}
+
+enum State {
+  OPEN   = 0;
+  CLOSED = 1;
+}
+
+message DataN7 {
+  optional State dry_contact = 1;
+}
+
+message PayloadN7 {
+  optional CommonHeader head = 1;
+  optional NodeInfos int = 2;
+  optional DataN7 ext = 3;
+}
+
+message DataN8 {
+  optional State rele = 1;
+}
+
+message PayloadN8 {
+  optional CommonHeader head = 1;
+  optional NodeInfos int = 2;
+  optional DataN8 ext = 3;
+}
+
+enum Network {
+  PLACEHOLDER = 0;
+  // still no definition for Network enum values
+}
+
+message StatusGateway {
+  optional uint32  battery_voltage = 1;
+  optional uint32  battery_current = 2;
+  optional uint32  solar_voltage = 3;
+  optional uint32  solar_current = 4;
+  optional Network network_type = 5;
+  optional uint32  signal_strength = 6;
+  optional double  latitude = 7;
+  optional double  longitude = 8;
+}
+
+message DataN9 {
+  optional sint32 case_temperature = 1;
+  optional uint32 case_humidity = 2;
+  optional sint32 outdoor_temperature = 3;
+  optional uint32 outdoor_humidity = 4;
+  optional uint32 outdoor_wind_speed_min = 5;
+  optional uint32 outdoor_wind_speed_max = 6;
+  optional uint32 outdoor_wind_speed = 7;
+  optional uint32 outdoor_wind_direction = 8;
+  optional uint32 outdoor_rainfall = 9;
+}
+
+message PayloadN9 {
+  optional CommonHeader head = 1;
+  optional StatusGateway int = 2;
+  optional DataN9 ext = 3;
+}
+
+message PayloadN10 {
+  optional CommonHeader head = 1;
+  optional double latitude = 2;
+  optional double longitude = 3;
+  optional sint32 case_temperature = 4;
+  optional uint32 case_humidity = 5;
+  repeated uint32 indoor_insects_count_packed = 6;
+}
+
+message BlobMessage {
+  repeated PayloadN1  node1_messages  =  1;
+  repeated PayloadN2  node2_messages  =  2;
+  repeated PayloadN3  node3_messages  =  3;
+  repeated PayloadN4  node4_messages  =  4;
+  repeated PayloadN5  node5_messages  =  5;
+  repeated PayloadN6  node6_messages  =  6;
+  repeated PayloadN7  node7_messages  =  7;
+  repeated PayloadN8  node8_messages  =  8;
+  repeated PayloadN9  node9_messages  =  9;
+  repeated PayloadN10 node10_messages = 10;
+}
