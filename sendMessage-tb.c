@@ -50,6 +50,8 @@ int main (int argc, const char * argv[])
   unsigned len;                     // Length of serialized data
 
   PayloadN1 msg = PAYLOAD_N1__INIT; // Initialize payload message
+  PayloadN1 *payloadN1Arr[0];
+  BlobMessage blobMsg = BLOB_MESSAGE__INIT; // Initialize Blob msg 
   NodeInfos info = NODE_INFOS__INIT;// Initialize info message
   DataN1 data = DATA_N1__INIT;      // Initialize data message
 
@@ -98,14 +100,19 @@ int main (int argc, const char * argv[])
 
     msg.int_ = &info;
     msg.ext  = &data;
+    payloadN1Arr[0] = &msg;
+    blobMsg.n_node1_messages = 1;
+    blobMsg.node1_messages = payloadN1Arr;
 
-    len = payload_n1__get_packed_size(&msg);
+    //len = payload_n1__get_packed_size(&msg);
+    len = blob_message__get_packed_size(&blobMsg);
     avg += len-(totBits/8.0);
     fprintf(stderr,"%d - Writing %d serialized bytes, total bits: %d, overhead:  %2.f \n", i+1, len, totBits, len - totBits/8.0); // See the length of message
 
     if (argc>=2 && argv[1][0]=='f'){
       buf = malloc(len);
-      payload_n1__pack(&msg, buf);
+      //payload_n1__pack(&msg, buf);
+      blob_message__pack(&blobMsg, buf);
       
       wToFile(buf, len, i);
 
