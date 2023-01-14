@@ -1,1 +1,7 @@
-build/
+# Excluding files from git tracking
+
+# Binary files
+bin/
+
+# Protobuf-generated source code
+gala.pb-c.*
