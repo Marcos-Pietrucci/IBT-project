@@ -14,7 +14,7 @@ read_buffer (unsigned max_length, uint8_t *out)
 {
   FILE *fptr;
 
-  fptr = fopen("message.txt","r");
+  fptr = fopen("bin/message.txt","r");
 
   size_t cur_len = 0;
   size_t nread;
@@ -32,22 +32,28 @@ read_buffer (unsigned max_length, uint8_t *out)
 
 int main (int argc, const char * argv[]) 
 {
-  PayloadN1 *msg; // AMessage
+  BlobMessage *msg; // AMessage
 
   // Read packed message from standard-input.
   uint8_t buf[MAX_MSG_SIZE];
   size_t msg_len = read_buffer (MAX_MSG_SIZE, buf);
 
   // Unpack the message using protobuf-c.
-  msg = payload_n1__unpack(NULL, msg_len, buf);	
+  msg = blob_message__unpack(NULL, msg_len, buf);	
   if (msg == NULL)
   {
     fprintf(stderr, "error unpacking incoming message\n");
     exit(1);
   }
+  if (msg->n_node1_messages < 1)
+  {
+    fprintf(stderr, "error no N1 Payload\n");
+    exit(1);
+  }
 
-  NodeInfos *info = msg->int_;
-  DataN1 *data = msg->ext;
+  PayloadN1 **payloadN1=msg->node1_messages;
+  NodeInfos *info = payloadN1[0]->int_;
+  DataN1 *data = payloadN1[0]->ext;
 
   printf("Received data\n NodeInfos:\n");
 
@@ -65,6 +71,6 @@ int main (int argc, const char * argv[])
   printField(data, indoor_db_temperature);
 
   // Free the unpacked message
-  payload_n1__free_unpacked(msg, NULL);
+  blob_message__free_unpacked(msg, NULL);
   return 0;
 }

@@ -22,7 +22,7 @@ void wToFile(void *buf, unsigned len, unsigned index){
   FILE *fptr;
 
   char fileName[20];
-  sprintf (fileName, "message%d.txt", index);
+  sprintf (fileName, "bin/message%d.txt", index);
   fptr = fopen(fileName, "w");
 
   if(fptr == NULL)
