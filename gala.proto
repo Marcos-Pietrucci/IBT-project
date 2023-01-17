@@ -110,17 +110,6 @@ enum Network {
   LTE = 2;
 }
 
-message StatusGateway {
-  optional uint32  battery_voltage = 1;
-  optional uint32  battery_current = 2;
-  optional uint32  solar_voltage = 3;
-  optional uint32  solar_current = 4;
-  optional Network network_type = 5;
-  optional uint32  signal_strength = 6;
-  optional double  latitude = 7;
-  optional double  longitude = 8;
-}
-
 message DataN9 {
   optional int32  case_temperature = 1;
   optional uint32 case_humidity = 2;
@@ -131,19 +120,31 @@ message DataN9 {
   optional uint32 outdoor_wind_speed = 7;
   optional uint32 outdoor_wind_direction = 8;
   optional uint32 outdoor_rainfall = 9;
+  optional Network network_type = 10;
+  optional uint32  signal_strength = 11;
+  optional uint32  solar_voltage = 12;
+  optional uint32  solar_current = 13;
+  optional double  latitude = 14;
+  optional double  longitude = 15;
+  optional uint32  battery_current = 16;
 }
   
 message PayloadN9 {
-  optional StatusGateway gwInfo= 1;
+  optional NodeInfos int = 1;
   optional DataN9 ext = 2;
 } 
 
-message PayloadN10 {
+message DataN10 {
   optional double latitude = 1;
   optional double longitude = 2;
   optional int32  case_temperature = 3;
   optional uint32 case_humidity = 4;
   repeated uint32 indoor_insects_count_packed = 5;
+}
+
+message PayloadN10 {
+  optional NodeInfos int = 1;
+  optional DataN10 ext = 2;
 }
 
 //Contains all messages payload

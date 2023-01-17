@@ -31,14 +31,27 @@ int main (int argc, const char * argv[])
   DataN1 data = DATA_N1__INIT;
 
 
-  info.battery_voltage = 10;
-  info.fw_version = 100;
-  info.packet_rolling_num = 10;
+  info.has_battery_voltage = 1;
+  info.has_fw_version = 1;
+  info.has_packet_rolling_num = 1;
+  info.has_nodeid = 1;
+  info.has_unixtime = 1;
 
-  data.indoor_wb_temperature = -20;
-  data.indoor_light = 21;
-  data.indoor_humidity = 22;
-  data.indoor_db_temperature = 23;
+  info.battery_voltage = 0x0A;
+  info.fw_version = 0x64;
+  info.packet_rolling_num = 0x0A;
+  info.nodeid = 0xC8;
+  info.unixtime = 0xAABBCCDD;
+
+  data.has_indoor_wb_temperature = 1;
+  data.has_indoor_light = 1;
+  data.has_indoor_humidity = 1;
+  data.has_indoor_db_temperature = 1 ;
+
+  data.indoor_wb_temperature = 0xFFFFFFFF;
+  data.indoor_light = 0x000186A0;
+  data.indoor_humidity = 0x46;
+  data.indoor_db_temperature = 0x19;
 
   msg.int_ = &info;
   msg.ext  = &data;
@@ -47,6 +60,11 @@ int main (int argc, const char * argv[])
   
   buf = malloc(len);
   payload_n1__pack(&msg,buf);
+  for (int i = 0; i < len; ++i)
+  {
+  printf("%02X ", ((uint8_t*)buf)[i]);
+  }
+  printf("\n");
   
   fprintf(stderr,"Writing %d serialized bytes\n",len); // See the length of message
   wToFile(buf, len);

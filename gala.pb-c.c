@@ -772,51 +772,6 @@ void   payload_n8__free_unpacked
   assert(message->base.descriptor == &payload_n8__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   status_gateway__init
-                     (StatusGateway         *message)
-{
-  static const StatusGateway init_value = STATUS_GATEWAY__INIT;
-  *message = init_value;
-}
-size_t status_gateway__get_packed_size
-                     (const StatusGateway *message)
-{
-  assert(message->base.descriptor == &status_gateway__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t status_gateway__pack
-                     (const StatusGateway *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &status_gateway__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t status_gateway__pack_to_buffer
-                     (const StatusGateway *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &status_gateway__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-StatusGateway *
-       status_gateway__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (StatusGateway *)
-     protobuf_c_message_unpack (&status_gateway__descriptor,
-                                allocator, len, data);
-}
-void   status_gateway__free_unpacked
-                     (StatusGateway *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &status_gateway__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
 void   data_n9__init
                      (DataN9         *message)
 {
@@ -905,6 +860,51 @@ void   payload_n9__free_unpacked
   if(!message)
     return;
   assert(message->base.descriptor == &payload_n9__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   data_n10__init
+                     (DataN10         *message)
+{
+  static const DataN10 init_value = DATA_N10__INIT;
+  *message = init_value;
+}
+size_t data_n10__get_packed_size
+                     (const DataN10 *message)
+{
+  assert(message->base.descriptor == &data_n10__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t data_n10__pack
+                     (const DataN10 *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &data_n10__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t data_n10__pack_to_buffer
+                     (const DataN10 *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &data_n10__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+DataN10 *
+       data_n10__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (DataN10 *)
+     protobuf_c_message_unpack (&data_n10__descriptor,
+                                allocator, len, data);
+}
+void   data_n10__free_unpacked
+                     (DataN10 *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &data_n10__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   payload_n10__init
@@ -2098,136 +2098,7 @@ const ProtobufCMessageDescriptor payload_n8__descriptor =
   (ProtobufCMessageInit) payload_n8__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor status_gateway__field_descriptors[8] =
-{
-  {
-    "battery_voltage",
-    1,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_UINT32,
-    offsetof(StatusGateway, has_battery_voltage),
-    offsetof(StatusGateway, battery_voltage),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "battery_current",
-    2,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_UINT32,
-    offsetof(StatusGateway, has_battery_current),
-    offsetof(StatusGateway, battery_current),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "solar_voltage",
-    3,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_UINT32,
-    offsetof(StatusGateway, has_solar_voltage),
-    offsetof(StatusGateway, solar_voltage),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "solar_current",
-    4,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_UINT32,
-    offsetof(StatusGateway, has_solar_current),
-    offsetof(StatusGateway, solar_current),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "network_type",
-    5,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_ENUM,
-    offsetof(StatusGateway, has_network_type),
-    offsetof(StatusGateway, network_type),
-    &network__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "signal_strength",
-    6,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_UINT32,
-    offsetof(StatusGateway, has_signal_strength),
-    offsetof(StatusGateway, signal_strength),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "latitude",
-    7,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_DOUBLE,
-    offsetof(StatusGateway, has_latitude),
-    offsetof(StatusGateway, latitude),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "longitude",
-    8,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_DOUBLE,
-    offsetof(StatusGateway, has_longitude),
-    offsetof(StatusGateway, longitude),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned status_gateway__field_indices_by_name[] = {
-  1,   /* field[1] = battery_current */
-  0,   /* field[0] = battery_voltage */
-  6,   /* field[6] = latitude */
-  7,   /* field[7] = longitude */
-  4,   /* field[4] = network_type */
-  5,   /* field[5] = signal_strength */
-  3,   /* field[3] = solar_current */
-  2,   /* field[2] = solar_voltage */
-};
-static const ProtobufCIntRange status_gateway__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 8 }
-};
-const ProtobufCMessageDescriptor status_gateway__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "StatusGateway",
-  "StatusGateway",
-  "StatusGateway",
-  "",
-  sizeof(StatusGateway),
-  8,
-  status_gateway__field_descriptors,
-  status_gateway__field_indices_by_name,
-  1,  status_gateway__number_ranges,
-  (ProtobufCMessageInit) status_gateway__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
+static const ProtobufCFieldDescriptor data_n9__field_descriptors[16] =
 {
   {
     "case_temperature",
@@ -2337,10 +2208,98 @@ static const ProtobufCFieldDescriptor data_n9__field_descriptors[9] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "network_type",
+    10,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(DataN9, has_network_type),
+    offsetof(DataN9, network_type),
+    &network__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "signal_strength",
+    11,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(DataN9, has_signal_strength),
+    offsetof(DataN9, signal_strength),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "solar_voltage",
+    12,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(DataN9, has_solar_voltage),
+    offsetof(DataN9, solar_voltage),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "solar_current",
+    13,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(DataN9, has_solar_current),
+    offsetof(DataN9, solar_current),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "latitude",
+    14,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_DOUBLE,
+    offsetof(DataN9, has_latitude),
+    offsetof(DataN9, latitude),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "longitude",
+    15,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_DOUBLE,
+    offsetof(DataN9, has_longitude),
+    offsetof(DataN9, longitude),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "battery_current",
+    16,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(DataN9, has_battery_current),
+    offsetof(DataN9, battery_current),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned data_n9__field_indices_by_name[] = {
+  15,   /* field[15] = battery_current */
   1,   /* field[1] = case_humidity */
   0,   /* field[0] = case_temperature */
+  13,   /* field[13] = latitude */
+  14,   /* field[14] = longitude */
+  9,   /* field[9] = network_type */
   3,   /* field[3] = outdoor_humidity */
   8,   /* field[8] = outdoor_rainfall */
   2,   /* field[2] = outdoor_temperature */
@@ -2348,11 +2307,14 @@ static const unsigned data_n9__field_indices_by_name[] = {
   6,   /* field[6] = outdoor_wind_speed */
   5,   /* field[5] = outdoor_wind_speed_max */
   4,   /* field[4] = outdoor_wind_speed_min */
+  10,   /* field[10] = signal_strength */
+  12,   /* field[12] = solar_current */
+  11,   /* field[11] = solar_voltage */
 };
 static const ProtobufCIntRange data_n9__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 9 }
+  { 0, 16 }
 };
 const ProtobufCMessageDescriptor data_n9__descriptor =
 {
@@ -2362,7 +2324,7 @@ const ProtobufCMessageDescriptor data_n9__descriptor =
   "DataN9",
   "",
   sizeof(DataN9),
-  9,
+  16,
   data_n9__field_descriptors,
   data_n9__field_indices_by_name,
   1,  data_n9__number_ranges,
@@ -2372,13 +2334,13 @@ const ProtobufCMessageDescriptor data_n9__descriptor =
 static const ProtobufCFieldDescriptor payload_n9__field_descriptors[2] =
 {
   {
-    "gwInfo",
+    "int",
     1,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(PayloadN9, gwinfo),
-    &status_gateway__descriptor,
+    offsetof(PayloadN9, int_),
+    &node_infos__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -2398,7 +2360,7 @@ static const ProtobufCFieldDescriptor payload_n9__field_descriptors[2] =
 };
 static const unsigned payload_n9__field_indices_by_name[] = {
   1,   /* field[1] = ext */
-  0,   /* field[0] = gwInfo */
+  0,   /* field[0] = int */
 };
 static const ProtobufCIntRange payload_n9__number_ranges[1 + 1] =
 {
@@ -2420,15 +2382,15 @@ const ProtobufCMessageDescriptor payload_n9__descriptor =
   (ProtobufCMessageInit) payload_n9__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor payload_n10__field_descriptors[5] =
+static const ProtobufCFieldDescriptor data_n10__field_descriptors[5] =
 {
   {
     "latitude",
     1,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_DOUBLE,
-    offsetof(PayloadN10, has_latitude),
-    offsetof(PayloadN10, latitude),
+    offsetof(DataN10, has_latitude),
+    offsetof(DataN10, latitude),
     NULL,
     NULL,
     0,             /* flags */
@@ -2439,8 +2401,8 @@ static const ProtobufCFieldDescriptor payload_n10__field_descriptors[5] =
     2,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_DOUBLE,
-    offsetof(PayloadN10, has_longitude),
-    offsetof(PayloadN10, longitude),
+    offsetof(DataN10, has_longitude),
+    offsetof(DataN10, longitude),
     NULL,
     NULL,
     0,             /* flags */
@@ -2451,8 +2413,8 @@ static const ProtobufCFieldDescriptor payload_n10__field_descriptors[5] =
     3,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_INT32,
-    offsetof(PayloadN10, has_case_temperature),
-    offsetof(PayloadN10, case_temperature),
+    offsetof(DataN10, has_case_temperature),
+    offsetof(DataN10, case_temperature),
     NULL,
     NULL,
     0,             /* flags */
@@ -2463,8 +2425,8 @@ static const ProtobufCFieldDescriptor payload_n10__field_descriptors[5] =
     4,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_UINT32,
-    offsetof(PayloadN10, has_case_humidity),
-    offsetof(PayloadN10, case_humidity),
+    offsetof(DataN10, has_case_humidity),
+    offsetof(DataN10, case_humidity),
     NULL,
     NULL,
     0,             /* flags */
@@ -2475,25 +2437,76 @@ static const ProtobufCFieldDescriptor payload_n10__field_descriptors[5] =
     5,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_UINT32,
-    offsetof(PayloadN10, n_indoor_insects_count_packed),
-    offsetof(PayloadN10, indoor_insects_count_packed),
+    offsetof(DataN10, n_indoor_insects_count_packed),
+    offsetof(DataN10, indoor_insects_count_packed),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
-static const unsigned payload_n10__field_indices_by_name[] = {
+static const unsigned data_n10__field_indices_by_name[] = {
   3,   /* field[3] = case_humidity */
   2,   /* field[2] = case_temperature */
   4,   /* field[4] = indoor_insects_count_packed */
   0,   /* field[0] = latitude */
   1,   /* field[1] = longitude */
 };
-static const ProtobufCIntRange payload_n10__number_ranges[1 + 1] =
+static const ProtobufCIntRange data_n10__number_ranges[1 + 1] =
 {
   { 1, 0 },
   { 0, 5 }
+};
+const ProtobufCMessageDescriptor data_n10__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "DataN10",
+  "DataN10",
+  "DataN10",
+  "",
+  sizeof(DataN10),
+  5,
+  data_n10__field_descriptors,
+  data_n10__field_indices_by_name,
+  1,  data_n10__number_ranges,
+  (ProtobufCMessageInit) data_n10__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor payload_n10__field_descriptors[2] =
+{
+  {
+    "int",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(PayloadN10, int_),
+    &node_infos__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ext",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(PayloadN10, ext),
+    &data_n10__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned payload_n10__field_indices_by_name[] = {
+  1,   /* field[1] = ext */
+  0,   /* field[0] = int */
+};
+static const ProtobufCIntRange payload_n10__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
 };
 const ProtobufCMessageDescriptor payload_n10__descriptor =
 {
@@ -2503,7 +2516,7 @@ const ProtobufCMessageDescriptor payload_n10__descriptor =
   "PayloadN10",
   "",
   sizeof(PayloadN10),
-  5,
+  2,
   payload_n10__field_descriptors,
   payload_n10__field_indices_by_name,
   1,  payload_n10__number_ranges,

@@ -4,7 +4,7 @@
 #ifndef PROTOBUF_C_gala_2eproto__INCLUDED
 #define PROTOBUF_C_gala_2eproto__INCLUDED
 
-#include <protobuf-c/protobuf-c.h>
+#include "protobuf-c.h"
 
 PROTOBUF_C__BEGIN_DECLS
 
@@ -32,9 +32,9 @@ typedef struct DataN7 DataN7;
 typedef struct PayloadN7 PayloadN7;
 typedef struct DataN8 DataN8;
 typedef struct PayloadN8 PayloadN8;
-typedef struct StatusGateway StatusGateway;
 typedef struct DataN9 DataN9;
 typedef struct PayloadN9 PayloadN9;
+typedef struct DataN10 DataN10;
 typedef struct PayloadN10 PayloadN10;
 typedef struct BlobMessage BlobMessage;
 
@@ -297,31 +297,6 @@ struct  PayloadN8
     , NULL, NULL }
 
 
-struct  StatusGateway
-{
-  ProtobufCMessage base;
-  protobuf_c_boolean has_battery_voltage;
-  uint32_t battery_voltage;
-  protobuf_c_boolean has_battery_current;
-  uint32_t battery_current;
-  protobuf_c_boolean has_solar_voltage;
-  uint32_t solar_voltage;
-  protobuf_c_boolean has_solar_current;
-  uint32_t solar_current;
-  protobuf_c_boolean has_network_type;
-  Network network_type;
-  protobuf_c_boolean has_signal_strength;
-  uint32_t signal_strength;
-  protobuf_c_boolean has_latitude;
-  double latitude;
-  protobuf_c_boolean has_longitude;
-  double longitude;
-};
-#define STATUS_GATEWAY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&status_gateway__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0, NETWORK__GPRS, 0, 0, 0, 0, 0, 0 }
-
-
 struct  DataN9
 {
   ProtobufCMessage base;
@@ -343,16 +318,30 @@ struct  DataN9
   uint32_t outdoor_wind_direction;
   protobuf_c_boolean has_outdoor_rainfall;
   uint32_t outdoor_rainfall;
+  protobuf_c_boolean has_network_type;
+  Network network_type;
+  protobuf_c_boolean has_signal_strength;
+  uint32_t signal_strength;
+  protobuf_c_boolean has_solar_voltage;
+  uint32_t solar_voltage;
+  protobuf_c_boolean has_solar_current;
+  uint32_t solar_current;
+  protobuf_c_boolean has_latitude;
+  double latitude;
+  protobuf_c_boolean has_longitude;
+  double longitude;
+  protobuf_c_boolean has_battery_current;
+  uint32_t battery_current;
 };
 #define DATA_N9__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&data_n9__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NETWORK__GPRS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
 
 struct  PayloadN9
 {
   ProtobufCMessage base;
-  StatusGateway *gwinfo;
+  NodeInfos *int_;
   DataN9 *ext;
 };
 #define PAYLOAD_N9__INIT \
@@ -360,7 +349,7 @@ struct  PayloadN9
     , NULL, NULL }
 
 
-struct  PayloadN10
+struct  DataN10
 {
   ProtobufCMessage base;
   protobuf_c_boolean has_latitude;
@@ -374,9 +363,20 @@ struct  PayloadN10
   size_t n_indoor_insects_count_packed;
   uint32_t *indoor_insects_count_packed;
 };
+#define DATA_N10__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&data_n10__descriptor) \
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0,NULL }
+
+
+struct  PayloadN10
+{
+  ProtobufCMessage base;
+  NodeInfos *int_;
+  DataN10 *ext;
+};
 #define PAYLOAD_N10__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&payload_n10__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0,NULL }
+    , NULL, NULL }
 
 
 /*
@@ -734,25 +734,6 @@ PayloadN8 *
 void   payload_n8__free_unpacked
                      (PayloadN8 *message,
                       ProtobufCAllocator *allocator);
-/* StatusGateway methods */
-void   status_gateway__init
-                     (StatusGateway         *message);
-size_t status_gateway__get_packed_size
-                     (const StatusGateway   *message);
-size_t status_gateway__pack
-                     (const StatusGateway   *message,
-                      uint8_t             *out);
-size_t status_gateway__pack_to_buffer
-                     (const StatusGateway   *message,
-                      ProtobufCBuffer     *buffer);
-StatusGateway *
-       status_gateway__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   status_gateway__free_unpacked
-                     (StatusGateway *message,
-                      ProtobufCAllocator *allocator);
 /* DataN9 methods */
 void   data_n9__init
                      (DataN9         *message);
@@ -790,6 +771,25 @@ PayloadN9 *
                       const uint8_t       *data);
 void   payload_n9__free_unpacked
                      (PayloadN9 *message,
+                      ProtobufCAllocator *allocator);
+/* DataN10 methods */
+void   data_n10__init
+                     (DataN10         *message);
+size_t data_n10__get_packed_size
+                     (const DataN10   *message);
+size_t data_n10__pack
+                     (const DataN10   *message,
+                      uint8_t             *out);
+size_t data_n10__pack_to_buffer
+                     (const DataN10   *message,
+                      ProtobufCBuffer     *buffer);
+DataN10 *
+       data_n10__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   data_n10__free_unpacked
+                     (DataN10 *message,
                       ProtobufCAllocator *allocator);
 /* PayloadN10 methods */
 void   payload_n10__init
@@ -882,14 +882,14 @@ typedef void (*DataN8_Closure)
 typedef void (*PayloadN8_Closure)
                  (const PayloadN8 *message,
                   void *closure_data);
-typedef void (*StatusGateway_Closure)
-                 (const StatusGateway *message,
-                  void *closure_data);
 typedef void (*DataN9_Closure)
                  (const DataN9 *message,
                   void *closure_data);
 typedef void (*PayloadN9_Closure)
                  (const PayloadN9 *message,
+                  void *closure_data);
+typedef void (*DataN10_Closure)
+                 (const DataN10 *message,
                   void *closure_data);
 typedef void (*PayloadN10_Closure)
                  (const PayloadN10 *message,
@@ -921,9 +921,9 @@ extern const ProtobufCMessageDescriptor data_n7__descriptor;
 extern const ProtobufCMessageDescriptor payload_n7__descriptor;
 extern const ProtobufCMessageDescriptor data_n8__descriptor;
 extern const ProtobufCMessageDescriptor payload_n8__descriptor;
-extern const ProtobufCMessageDescriptor status_gateway__descriptor;
 extern const ProtobufCMessageDescriptor data_n9__descriptor;
 extern const ProtobufCMessageDescriptor payload_n9__descriptor;
+extern const ProtobufCMessageDescriptor data_n10__descriptor;
 extern const ProtobufCMessageDescriptor payload_n10__descriptor;
 extern const ProtobufCMessageDescriptor blob_message__descriptor;
 
