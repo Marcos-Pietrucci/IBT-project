@@ -13,9 +13,9 @@ void printSize(char node_name[], int original_size, int message_size);
     void *buf;\
     unsigned len;\
     \
-    NodeInfos info = NODE_INFOS__INIT;\
-    Data##name data = DATA_##name##__INIT;\
-    Payload##name pl = PAYLOAD_##name##__INIT;
+    Header info = HEADER__INIT; \
+    name##Data data  = name##__DATA__INIT; \
+    name##Message pl = name##__MESSAGE__INIT;
 
 #define infoProperty(property, value) {\
     info.has_##property = 1;\
@@ -30,8 +30,8 @@ void printSize(char node_name[], int original_size, int message_size);
 #define setPayload(name) {\
     pl.int_ = &info;\
     pl.ext  = &data;\
-    len = payload_##name##__get_packed_size(&pl);\
-    payload_##name##__pack(&pl,buffer);\
+    len = name##__message__get_packed_size(&pl);\
+    name##__message__pack(&pl,buffer);\
 }
 
 
