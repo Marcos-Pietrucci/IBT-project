@@ -1,11 +1,18 @@
 #+TITLE: GALA protocol protobuf specification
 #+PROPERTY: header-args :tangle gala.proto
+#+STARTUP: hidestars
 #+STARTUP: content
-  Using *proto2* for compatibility with proto-c, consider switching to proto3
+#+TAGS: WORKING(w) FIX(f) UNUSED(u)
+
+  Using *proto2*, proto3 is also compatible with the =protoc-c= compiler
+  #+begin_comment
   - consider switching some fields' encoding from =sint= to =int=
     (better for positive values) based on statistic (cow temperature
     will probably be higer than 0), while environment values can
     remain =sint= since the temperature may vary during the year
+
+    After checking for all the values 
+  #+end_comment
   #+begin_comment
   - consider moving all ={min, max, val}= fields inside other messages
 
@@ -33,71 +40,89 @@
     implementation to avoid changing the workflow of the whole system,
     so this point also can be ignored
   #+end_comment
-  TODO:
-  - define =Network= enumeration's values
-
+*** TODO [0/1]
+    - [ ] define =Network= enumeration's values inside [[N9 Messages]]
+    
 ** Protobuf version
    Specify which protobuf version to use
 
-#+begin_src protobuf
-  syntax = "proto2";
-#+end_src
+   #+begin_src protobuf
+     syntax = "proto2";
+   #+end_src
 
-** CommonHeader
-   These fields form the packet header each message and are used for
-   nodes and messages info
+** Overall message structure
+   A message is composed of:
+   - a =Header= section that contains data that are repeated into
+     every node
+   - a =Data= section, specific for every node, that contains all the
+     data that node can transmit
+ 
+   #+begin_src protobuf :tangle no
+     message Header {
+       // ... common fields for every node
+     }
 
-#+begin_src protobuf
-  message CommonHeader {
-    optional uint32 node_id = 1;
-    optional uint32 unix_time = 2;
-  }
-#+end_src
+     message NX_Data {
+       // ... specific data for the Xth node
+     }
 
-** NodeInfos
-   - battery voltage
+     message NX_Message {
+       optional Header int = 1;
+       optional NX_Data = 2;
+       // Message header and data are kept separetly
+     }
+   #+end_src
+
+** Header                                                           :WORKING:
+   The header contains info such as
+   - the nod ID
+   - unix time
    - firmware version
-   - rolling
-   These fields are present in every node (except for node N9 "Weather" and N10 "Gateway"
+   - battery voltage
+   - sequential increasing number
+   These fields (or some of them) are present in every node, so
+   grouping them all together allows for easy modifications later.
 
-#+begin_src protobuf
-  message NodeInfos {
-    optional uint32 battery_voltage = 1;
-    optional uint32 fw_version = 2;
-    optional uint32 packet_rolling_num = 3;
-  }
-#+end_src
+   #+begin_src protobuf
+     message Header {
+       optional uint32 node_id = 1;
+       optional uint32 unix_time = 2;
+       optional uint32 battery_voltage = 3;
+       optional uint32 fw_version = 4;
+       optional uint32 packet_rolling_num = 5;
+     }
+   #+end_src
 
-** N1 specific data
+** N1 Messages                                                      :WORKING:
    N1 nodes send data about indoor environment:
    - temperature (wet)
    - light
    - humidity
    - temperature (dry)
   
-#+begin_src protobuf
-  message DataN1 {
-    optional sint32 indoor_wb_temperature = 1;
-    optional uint32 indoor_light = 2;
-    optional uint32 indoor_humidity = 3;
-    optional sint32 indoor_db_temperature = 4;
-  }
-  
-  message PayloadN1 {
-    optional CommonHeader head = 1;
-    optional NodeInfos int = 2;
-    optional DataN1 ext = 3;
-  }
-#+end_src
+   #+begin_src protobuf
+     message N1_Data {
+       optional int32  indoor_wb_temperature = 1;
+       optional uint32 indoor_light = 2;
+       optional uint32 indoor_humidity = 3;
+       optional int32  indoor_db_temperature = 4;
+     }
+     
+     message N1_Message {
+       optional Header int = 1;
+       optional N1_Data ext = 2;
+     }
+   #+end_src
 
-** N2 specific data
-   N2 nodes send data about cows behavior:
+** N2 Messages                                                      :WORKING:
+   N2 nodes send data to classify cows behavior:
    - bma reset counter
    - cow shock count
    - cow temperature
    - cow features
    - [cow features] [4]
-   - cow begavior class
+   - cow behavior class
+ 
    #+begin_comment
      NOTE: consider moving cow temperature in a sub message
 
@@ -105,133 +130,128 @@
      done since it just make the specification harder to understand
    #+end_comment
 
-#+begin_src protobuf
-  message DataN2 {
-    optional uint32 bma_reset_counter = 1;
-    optional uint32 cow_shock_conunt = 2;
-    optional uint32 cow_temperature_min = 3;
-    optional uint32 cow_temperature_max = 4;
-    optional uint32 cow_temperature_ave = 5;
-    repeated float  cow_features_set_0_fx = 6 [packed = true]; // zero or more values
-    optional uint32 behaviour_classes = 7;
-  }
-  
-  message PayloadN2 {
-    optional CommonHeader head = 1;
-    optional NodeInfos int = 2;
-    optional DataN2 ext = 3;
-  }
-#+end_src
+   #+begin_src protobuf
+     message N2_Data {
+       optional uint32 bma_reset_counter = 1;
+       optional uint32 cow_shock_conunt = 2;
+       optional uint32 cow_temperature_min = 3;
+       optional uint32 cow_temperature_max = 4;
+       optional uint32 cow_temperature_ave = 5;
+       repeated float  cow_features_set_0_fx = 6 [packed = true];
+       optional uint32 behaviour_classes = 7;
+     }
+     
+     message N2_Message {
+       optional Header int = 1;
+       optional N2_Data ext = 2;
+     }
+   #+end_src
 
-** N3 specific data
+** N3 Messages                                                      :WORKING:
    N3 nodes send data about water usage and temperature
    - drinking water usage and temperature
    - sprinkler water usage
 
-#+begin_src protobuf
-  message DataN3 {
-    optional uint32 drinking_water_volume_cumulated = 1;
-    optional sint32 drinking_water_temperature = 2;
-    optional uint32 sprinkler_water_volume_cumulated = 3;
-    optional sint32 sprinkler_water_temperature = 4;
-  }
+   #+begin_src protobuf
+     message N3_Data {
+       optional uint32 drinking_water_volume_cumulated = 1;
+       optional int32  drinking_water_temperature = 2;
+       optional uint32 sprinkler_water_volume_cumulated = 3;
+       optional int32  sprinkler_water_temperature = 4;
+     }
+   
+     message N3_Message {
+       optional Header int = 1;
+       optional N3_Data ext = 2;
+     }
+   #+end_src
 
-  message PayloadN3 {
-    optional CommonHeader head = 1;
-    optional NodeInfos int = 2;
-    optional DataN3 ext = 3;
-  }
-#+end_src
-
-** N4 specific data
+** N4 Messages                                                      :WORKING:
    N4 nodes send different datas regarding litter
    - conductivity
    - temperature
    - volumetric water count
 
-#+begin_src protobuf
-  message DataN4 {
-    optional uint32 litter_conductivity = 1;
-    optional sint32 litter_temperature = 2;
-    optional float  litter_vwc = 3;
-  }
+   #+begin_src protobuf
+     message N4_Data {
+       optional uint32 litter_conductivity = 1;
+       optional int32  litter_temperature = 2;
+       optional float  litter_vwc = 3;
+     }
+   
+     message N4_Message {
+       optional Header int = 1;
+       optional N4_Data ext = 2;
+     }
+   #+end_src
 
-  message PayloadN4 {
-    optional CommonHeader head = 1;
-    optional NodeInfos int = 2;
-    optional DataN4 ext = 3;
-  }
-#+end_src
-
-** N5 specific data
+** N5 Messages                                                      :WORKING:
    N5 nodes are used to measure conditions of the environment inside
    the farm such as sound levels and gas particles concentration
    - sound levels (min, max, avg)
    - gas concentration (ammonia, hydrogen sulfide, carbon dioxide and
      metane)
 
-#+begin_src protobuf
-  message DataN5 {
-    optional uint32 sound_level_min = 1;
-    optional uint32 sound_level_max = 2;
-    optional uint32 sound_level_avg = 3;
-    optional uint32 nh3_ppm = 4;
-    optional uint32 h2s_ppm = 5;
-    optional uint32 co2_ppm = 6;
-    optional uint32 ch4_ppm = 7;
-  }
-    
-  message PayloadN5 {
-    optional CommonHeader head = 1;
-    optional NodeInfos int = 2;
-    optional DataN5 ext = 3;
-  }
-#+end_src
+   #+begin_src protobuf
+      message N5_Data {
+        optional uint32 sound_level_min = 1;
+        optional uint32 sound_level_max = 2;
+        optional uint32 sound_level_avg = 3;
+        optional uint32 nh3_ppm = 4;
+        optional uint32 h2s_ppm = 5;
+        optional uint32 co2_ppm = 6;
+        optional uint32 ch4_ppm = 7;
+      }
+   
+      message N5_Message {
+        optional Header int = 1;
+        optional N5_Data ext = 2;
+      }
+   #+end_src
 
-** N6 specific data
+** N6 Messages                                                      :WORKING:
    N6 nodes measure values related to wind:
    - speed
    - direction
 
-#+begin_src protobuf
-  message DataN6 {
-    optional uint32 indoor_wind_speed_min = 1;
-    optional uint32 indoor_wind_speed_max = 2;
-    optional uint32 indoor_wind_speed = 3;
-    optional uint32 indoor_wind_direction= 4;
-  }
+   #+begin_src protobuf
+     message N6_Data {
+       optional uint32 indoor_wind_speed_min = 1;
+       optional uint32 indoor_wind_speed_max = 2;
+       optional uint32 indoor_wind_speed = 3;
+       optional uint32 indoor_wind_direction= 4;
+     }
+   
+     message N6_Message {
+       optional Header int = 1;
+       optional N6_Data ext = 2;
+     }
+   #+end_src
 
-  message PayloadN6 {
-    optional CommonHeader head = 1;
-    optional NodeInfos int = 2;
-    optional DataN6 ext = 3;
-  }
-#+end_src
-
-** N7 specific data
+** N7 Messages                                                       :UNUSED:
    N7 only sends one field of data:
    - status of a dry contact (open closed)
 
-#+begin_src protobuf
-  enum State {
-    OPEN   = 0;
-    CLOSED = 1;
-  }
+   #+begin_src protobuf
+     enum State {
+       OPEN   = 0;
+       CLOSED = 1;
+     }
+   
+     message N7_Data {
+       optional State dry_contact = 1;
+     }
+   
+     message N7_Message {
+       optional Header int = 1;
+       optional N7_Data ext = 2;
+     }
+   #+end_src
 
-  message DataN7 {
-    optional State dry_contact = 1;
-  }
-
-  message PayloadN7 {
-    optional CommonHeader head = 1;
-    optional NodeInfos int = 2;
-    optional DataN7 ext = 3;
-  }
-#+end_src
-
-** N8 specific data
+** N8 Messages                                                       :UNUSED:
    As in N7, this message specify the state of a rele with just two
    states: ={OPEN, CLOSED}=
+   
    #+begin_comment
      N8 looks like an N7 packet, there may be the possibility to
      implement both as an unique packet, only distinguished by the
@@ -240,72 +260,82 @@
      As specified in the introduction this will not be done
    #+end_comment
 
-#+begin_src protobuf
-  message DataN8 {
-    optional State rele = 1;
-  }
+   #+begin_src protobuf
+     message N8_Data {
+       optional State rele = 1;
+     }
+   
+     message N8_Message {
+       optional Header int = 1;
+       optional N8_Data ext = 2;
+     }
+   #+end_src
 
-  message PayloadN8 {
-    optional CommonHeader head = 1;
-    optional NodeInfos int = 2;
-    optional DataN8 ext = 3;
-  }
-#+end_src
-
-** N9 specific data
+** N9 Messages                                                      :WORKING:
    N9 packets are used to represent the gateway status:
    - power supply status
    - network status and overall weather conditions
-#+begin_src protobuf
-  enum Network {
-    PLACEHOLDER = 0;
-    // still no definition for Network enum values
-  }
 
-  message StatusGateway {
-    optional uint32  battery_voltage = 1;
-    optional uint32  battery_current = 2;
-    optional uint32  solar_voltage = 3;
-    optional uint32  solar_current = 4;
-    optional Network network_type = 5;
-    optional uint32  signal_strength = 6;
-    optional double  latitude = 7;
-    optional double  longitude = 8;
-  }
+   Start by defining the enumeration =Network=, specific for this
+   node
+   
+   #+begin_src protobuf
+     enum Network {
+       GPRS = 0;
+       UMTS = 1;
+       LTE = 2;
+     }
+   #+end_src
 
-  message DataN9 {
-    optional sint32 case_temperature = 1;
-    optional uint32 case_humidity = 2;
-    optional sint32 outdoor_temperature = 3;
-    optional uint32 outdoor_humidity = 4;
-    optional uint32 outdoor_wind_speed_min = 5;
-    optional uint32 outdoor_wind_speed_max = 6;
-    optional uint32 outdoor_wind_speed = 7;
-    optional uint32 outdoor_wind_direction = 8;
-    optional uint32 outdoor_rainfall = 9;
-  }
+   The message, previously defined in a different way, has now been
+   changed to a format that copy the previous nodes, this allows
+   for easy message creation inside the application code
 
-  message PayloadN9 {
-    optional CommonHeader head = 1;
-    optional StatusGateway int = 2;
-    optional DataN9 ext = 3;
-  } 
-#+end_src
+   #+begin_src protobuf
+     message N9_Data {
+       optional int32   case_temperature       =  1;
+       optional uint32  case_humidity          =  2;
+       optional int32   outdoor_temperature    =  3;
+       optional uint32  outdoor_humidity       =  4;
+       optional uint32  outdoor_wind_speed_min =  5;
+       optional uint32  outdoor_wind_speed_max =  6;
+       optional uint32  outdoor_wind_speed     =  7;
+       optional uint32  outdoor_wind_direction =  8;
+       optional uint32  outdoor_rainfall       =  9;
+       optional Network network_type           = 10;
+       optional uint32  signal_strength        = 11;
+       optional uint32  solar_voltage          = 12;
+       optional uint32  solar_current          = 13;
+       optional double  latitude               = 14;
+       optional double  longitude              = 15;
+       optional uint32  battery_current        = 16;
+     }
 
-** N10 specific data
+     message N9_Message {
+       optional Header int = 1;
+       optional N9_Data ext = 2;
+     } 
+   #+end_src
+
+** N0 Messages                                                      :WORKING:
    N10 node sends additional data about environment
-#+begin_src protobuf
-  message PayloadN10 {
-    optional CommonHeader head = 1;
-    optional double latitude = 2;
-    optional double longitude = 3;
-    optional sint32 case_temperature = 4;
-    optional uint32 case_humidity = 5;
-    repeated uint32 indoor_insects_count_packed = 6;
-  }
-#+end_src
 
-** Gateway message
+   #+begin_src protobuf
+     message N10_Data {
+       optional double latitude = 2;
+       optional double longitude = 3;
+       optional int32  case_temperature = 4;
+       optional uint32 case_humidity = 5;
+       repeated uint32 indoor_insects_count_packed = 6;
+     }
+
+     message N10_Message {
+       optional Header int = 1;
+       optional N10_Data ext = 2;
+     }
+   #+end_src
+
+** Gateway message                                                   :UNUSED:
    By implementing this message it is possible to create a single
    large message that group up many smaller messages of the previous
    types and allow to send them all at once reducing the traffic data
@@ -320,17 +350,26 @@
      representation for all it's data types, the number of messages
      for a single MQTT packet may vary
 
-#+begin_src protobuf
-  message BlobMessage {
-    repeated PayloadN1  node1_messages  =  1;
-    repeated PayloadN2  node2_messages  =  2;
-    repeated PayloadN3  node3_messages  =  3;
-    repeated PayloadN4  node4_messages  =  4;
-    repeated PayloadN5  node5_messages  =  5;
-    repeated PayloadN6  node6_messages  =  6;
-    repeated PayloadN7  node7_messages  =  7;
-    repeated PayloadN8  node8_messages  =  8;
-    repeated PayloadN9  node9_messages  =  9;
-    repeated PayloadN10 node10_messages = 10;
-  }
-#+end_src
+   After a further discussion there is the possibility this message
+   type will not be implemented, this way the gateway works as a
+   simple forwarder for the messages and does not perform any action
+   on them.
+
+   By omitting this big message the overhead of the gateway messages
+   is very large w.r.t. the message, but it's possible to update the
+   whole system without the need to update the gateway.
+
+   #+begin_src protobuf :tangle no
+     message GatewayMessage {
+       repeated N1_Message  node1_messages  =  1;
+       repeated N2_Message  node2_messages  =  2;
+       repeated N3_Message  node3_messages  =  3;
+       repeated N4_Message  node4_messages  =  4;
+       repeated N5_Message  node5_messages  =  5;
+       repeated N6_Message  node6_messages  =  6;
+       repeated N7_Message  node7_messages  =  7;
+       repeated N8_Message  node8_messages  =  8;
+       repeated N9_Message  node9_messages  =  9;
+       repeated N10_Message node10_messages = 10;
+     }
+   #+end_src
