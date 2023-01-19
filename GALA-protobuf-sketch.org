@@ -228,19 +228,25 @@
    #+end_src
 
 ** N7 Messages                                                       :UNUSED:
-   N7 only sends one field of data:
-   - status of a dry contact (open closed)
+   The only data this nod carries is the state of a contact, here
+   defined as:
 
    #+begin_src protobuf
      enum State {
        OPEN   = 0;
        CLOSED = 1;
      }
-   
+   #+end_src
+
+   N7 only sends one field of data:
+   - status of a dry contact (open closed)
+
+   #+begin_src protobuf
+
      message N7_Data {
        optional State dry_contact = 1;
      }
-   
+
      message N7_Message {
        optional Header int = 1;
        optional N7_Data ext = 2;
