@@ -40,9 +40,8 @@
     implementation to avoid changing the workflow of the whole system,
     so this point also can be ignored
   #+end_comment
-*** TODO [0/1]
-    - [ ] define =Network= enumeration's values inside [[N9 Messages]]
-    
+*** TODO TODO:
+    - define =Network= enumeration's values inside [[*N9 Messages]]    
 ** Protobuf version
    Specify which protobuf version to use
 
