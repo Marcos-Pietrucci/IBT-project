@@ -41,7 +41,7 @@
     so this point also can be ignored
   #+end_comment
 *** TODO TODO:
-    - define =Network= enumeration's values inside [[*N9 Messages]]    
+    - define =Network= enumeration's values inside [[#n9-messages][N9 Messages]] 
 ** Protobuf version
    Specify which protobuf version to use
 
