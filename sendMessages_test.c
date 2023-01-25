@@ -5,9 +5,11 @@
 
 #include "gala.pb-c.h"
 
+
 uint8_t buffer[255];
 
 void printSize(char node_name[], int original_size, int message_size);
+void wToFile(void *buf, unsigned len, char* kind);
 
 #define initPackage(name)\
     void *buf;\
@@ -15,23 +17,23 @@ void printSize(char node_name[], int original_size, int message_size);
     \
     Header info = HEADER__INIT; \
     name##Data data  = name##__DATA__INIT; \
-    name##Message pl = name##__MESSAGE__INIT;
+    name##Message pl = name##__MESSAGE__INIT;\
+    NodeMessage msg = NODE__MESSAGE__INIT;
 
 #define infoProperty(property, value) {\
-    info.has_##property = 1;\
     info.property = value;\
 }
 
 #define dataProperty(property, value) {\
-    data.has_##property = 1;\
     data.property = value;\
 }
 
 #define setPayload(name) {\
     pl.int_ = &info;\
     pl.ext  = &data;\
-    len = name##__message__get_packed_size(&pl);\
-    name##__message__pack(&pl,buffer);\
+    msg.name##_message = &pl;\
+    len = node__message__get_packed_size(&msg);\
+    node__message__pack(&msg,buffer);\
 }
 
 
@@ -52,6 +54,7 @@ void generateN1min(){
     setPayload(n1);
 
     printSize("minN1", 26, len);
+    wToFile(buffer, len, "minN1");
 }
 
 void generateN1max(){
@@ -71,6 +74,7 @@ void generateN1max(){
     setPayload(n1);
 
     printSize("maxN1", 26, len);
+    wToFile(buffer, len, "maxN1");
 }
 
 void generateN2min(){
@@ -96,6 +100,7 @@ void generateN2min(){
     setPayload(n2);
 
     printSize("minN2", 64, len);
+    wToFile(buffer, len, "minN2");
 }
 
 void generateN2max(){
@@ -121,6 +126,7 @@ void generateN2max(){
     setPayload(n2);
 
     printSize("maxN2", 64, len);
+    wToFile(buffer, len, "maxN2");
 }
 
 void generateN3max(){
@@ -141,11 +147,7 @@ void generateN3max(){
     setPayload(n3);
 
     printSize("maxN3", 28, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "maxN3");
 }
 
 void generateN3min(){
@@ -166,11 +168,7 @@ void generateN3min(){
     setPayload(n3);
 
     printSize("minN3", 28, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "minN3");
 }
 
 void generateN4max(){
@@ -190,11 +188,7 @@ void generateN4max(){
     setPayload(n4);
 
     printSize("maxN4", 24, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "maxN4");
 }
 
 void generateN4min(){
@@ -214,11 +208,7 @@ void generateN4min(){
     setPayload(n4);
 
     printSize("minN4", 24, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "minN4");
 }
 
 void generateN5max(){
@@ -242,11 +232,7 @@ void generateN5max(){
     setPayload(n5);
 
     printSize("max5", 29, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "maxN5");
 }
 
 void generateN5min(){
@@ -270,11 +256,7 @@ void generateN5min(){
     setPayload(n5);
 
     printSize("min5", 29, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "minN5");
 }
 
 
@@ -296,6 +278,7 @@ void generateN6max(){
     setPayload(n6);
 
     printSize("max6", 28, len);
+    wToFile(buffer, len, "maxN6");
 }
 
 void generateN6min(){
@@ -316,6 +299,7 @@ void generateN6min(){
     setPayload(n6);                    // Free the allocated serialized buffer
 
     printSize("min6", 28, len);
+    wToFile(buffer, len, "minN6");
 }
 
 void generateN9max(){
@@ -342,11 +326,7 @@ void generateN9max(){
     setPayload(n9);
     
     printSize("max9", 11 + 44, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "maxN9");
 }
 
 void generateN9min(){
@@ -373,11 +353,7 @@ void generateN9min(){
     setPayload(n9);
     
     printSize("min9", 11 + 44, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "minN9");
 }
 
 void generateN10max(){
@@ -395,11 +371,7 @@ void generateN10max(){
     setPayload(n10);
     
     printSize("max10", 11 + 31, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "maxN10");
 }
 
 void generateN10min(){
@@ -417,17 +389,13 @@ void generateN10min(){
     setPayload(n10);
     
     printSize("min10", 11 + 31, len);
-
-    //fprintf(stderr,"Writing %d serialized bytes", len); // Print length of binary message
-    //buf = malloc(len);              // Allocate buffer for binary message
-    //payload_n1__pack(&pl, buf);     // Serialize payload to binary message
-    //free(buf);                      // Free the allocated serialized buffer
+    wToFile(buffer, len, "minN10");
 }
 
 int main (int argc, const char * argv[]) 
 {
     generateN1min();
-    /*generateN2min();
+    generateN2min();
     generateN3min();
     generateN4min();
     generateN5min();
@@ -441,9 +409,27 @@ int main (int argc, const char * argv[])
     generateN5max();
     generateN6max();
     generateN9max();
-    generateN10max();*/
+    generateN10max();
 }
 
 void printSize(char node_name[], int original_size, int message_size) {
     printf("Node: %s,\tOld: %3d,\tNew: %3d\n", node_name, original_size, message_size);
+}
+
+void wToFile(void *buf, unsigned len, char* kind){
+  int num;
+  FILE *fptr;
+
+  char fileName[25];
+  sprintf (fileName, "bin/message%s.txt", kind);
+  fptr = fopen(fileName, "w");
+
+  if(fptr == NULL)
+  {
+    printf("Error!");   
+    exit(1);             
+  }
+
+  fwrite(buf,len,1,fptr);
+  fclose(fptr);
 }
