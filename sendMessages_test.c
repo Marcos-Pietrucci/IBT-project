@@ -77,6 +77,26 @@ void generateN1max(){
     wToFile(buffer, len, "maxN1");
 }
 
+void generateN1rnd(){
+    initPackage(N1);
+
+    infoProperty(battery_voltage, rand()%2000);
+    infoProperty(fw_version, rand()%0x000FFFFF);
+    infoProperty(packet_rolling_num, rand()%0x000FFFFF);
+    infoProperty(nodeid, rand()%1000);
+    infoProperty(unixtime, 1673956667);  
+    
+    dataProperty(indoor_wb_temperature, (rand()%50)*( (rand()%2) ? 1:-1));
+    dataProperty(indoor_light, rand()%1000000);
+    dataProperty(indoor_humidity, rand()%1000);
+    dataProperty(indoor_db_temperature, (rand()%50)*( (rand()%2) ? 1:-1));
+
+    setPayload(n1);
+
+    printSize("rndN1", 26, len);
+    wToFile(buffer, len, "rndN1");
+}
+
 void generateN2min(){
     initPackage(N2);
 
@@ -394,22 +414,27 @@ void generateN10min(){
 
 int main (int argc, const char * argv[]) 
 {
-    generateN1min();
-    generateN2min();
-    generateN3min();
-    generateN4min();
-    generateN5min();
-    generateN6min();
-    generateN9min();
-    generateN10min();
-    generateN1max();
-    generateN2max();
-    generateN3max();
-    generateN4max();
-    generateN5max();
-    generateN6max();
-    generateN9max();
-    generateN10max();
+    if (argc>=2 && argv[1][0]=='r'){
+        srand(time(NULL)); 
+        generateN1rnd();
+    }else{
+        generateN1min();
+        generateN2min();
+        generateN3min();
+        generateN4min();
+        generateN5min();
+        generateN6min();
+        generateN9min();
+        generateN10min();
+        generateN1max();
+        generateN2max();
+        generateN3max();
+        generateN4max();
+        generateN5max();
+        generateN6max();
+        generateN9max();
+        generateN10max();
+    }
 }
 
 void printSize(char node_name[], int original_size, int message_size) {
