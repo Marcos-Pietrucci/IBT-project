@@ -148,14 +148,16 @@ message N10_Message {
 }
 
 message Node_Message {
-  N1_Message  n1_message  =  1;
-  N2_Message  n2_message  =  2;
-  N3_Message  n3_message  =  3;
-  N4_Message  n4_message  =  4;
-  N5_Message  n5_message  =  5;
-  N6_Message  n6_message  =  6;
-  N7_Message  n7_message  =  7;
-  N8_Message  n8_message  =  8;
-  N9_Message  n9_message  =  9;
-  N10_Message n10_message = 10;
- }
+  oneof test_oneof{
+    N1_Message  n1_message  =  1;
+    N2_Message  n2_message  =  2;
+    N3_Message  n3_message  =  3;
+    N4_Message  n4_message  =  4;
+    N5_Message  n5_message  =  5;
+    N6_Message  n6_message  =  6;
+    N7_Message  n7_message  =  7;
+    N8_Message  n8_message  =  8;
+    N9_Message  n9_message  =  9;
+    N10_Message n10_message = 10;
+  }
+}

@@ -1,10 +1,10 @@
 #!/bin/bash
-THINGSBOARD_HOST_NAME=mqtt.thingsboard.cloud
-ACCESS_TOKEN=fxcvtibeuwxwuibc
-DEVICE=v1/devices/mbp/telemetry
-ID=44d05870-9bc9-11ed-a667-e9eba22b9df6
+THINGSBOARD_HOST_NAME=3maple.iot.ibtsystems.it
+ACCESS_TOKEN=uECKj3EmRyYOuLMHOcLU
+DEVICE=v1/devices/me/telemetry
+ID=b97bf730-9d7f-11ed-b333-bb089c8bc7ac
 SECRET=segreto
 
 rm bin/messagerndN1.txt 
 bin/sendMessages_test r
-mosquitto_pub -d -q 1 -h "$THINGSBOARD_HOST_NAME" -p "1883" -t "$DEVICE" -u "$ACCESS_TOKEN" -i "$ID" -f "./bin/messagerndN1.txt"; 
+mosquitto_pub -d -q 1 -h "$THINGSBOARD_HOST_NAME" -p "1888" -t "$DEVICE" -u "$ACCESS_TOKEN" -f "./bin/messagerndN1.txt"; 

@@ -28,9 +28,10 @@ void wToFile(void *buf, unsigned len, char* kind);
     data.property = value;\
 }
 
-#define setPayload(name) {\
+#define setPayload(name,capName) {\
     pl.int_ = &info;\
     pl.ext  = &data;\
+    msg.test_oneof_case = NODE__MESSAGE__TEST_ONEOF_##capName##_MESSAGE;\
     msg.name##_message = &pl;\
     len = node__message__get_packed_size(&msg);\
     node__message__pack(&msg,buffer);\
@@ -51,7 +52,7 @@ void generateN1min(){
     dataProperty(indoor_humidity, 0);
     dataProperty(indoor_db_temperature, 0);
 
-    setPayload(n1);
+    setPayload(n1, N1);
 
     printSize("minN1", 26, len);
     wToFile(buffer, len, "minN1");
@@ -71,7 +72,7 @@ void generateN1max(){
     dataProperty(indoor_humidity, 1000);
     dataProperty(indoor_db_temperature, -50);
 
-    setPayload(n1);
+    setPayload(n1, N1);
 
     printSize("maxN1", 26, len);
     wToFile(buffer, len, "maxN1");
@@ -83,7 +84,7 @@ void generateN1rnd(){
     infoProperty(battery_voltage, rand()%2000);
     infoProperty(fw_version, rand()%0x000FFFFF);
     infoProperty(packet_rolling_num, rand()%0x000FFFFF);
-    infoProperty(nodeid, rand()%1000);
+    infoProperty(nodeid, 205);
     infoProperty(unixtime, 1673956667);  
     
     dataProperty(indoor_wb_temperature, (rand()%50)*( (rand()%2) ? 1:-1));
@@ -91,7 +92,7 @@ void generateN1rnd(){
     dataProperty(indoor_humidity, rand()%1000);
     dataProperty(indoor_db_temperature, (rand()%50)*( (rand()%2) ? 1:-1));
 
-    setPayload(n1);
+    setPayload(n1, N1);
 
     printSize("rndN1", 26, len);
     wToFile(buffer, len, "rndN1");
@@ -117,7 +118,7 @@ void generateN2min(){
     
     dataProperty(behaviour_classes, 0x07030301);
 
-    setPayload(n2);
+    setPayload(n2, N2);
 
     printSize("minN2", 64, len);
     wToFile(buffer, len, "minN2");
@@ -143,7 +144,7 @@ void generateN2max(){
     
     dataProperty(behaviour_classes, 0x07030301);
 
-    setPayload(n2);
+    setPayload(n2, N2);
 
     printSize("maxN2", 64, len);
     wToFile(buffer, len, "maxN2");
@@ -164,7 +165,7 @@ void generateN3max(){
     dataProperty(sprinkler_water_volume_cumulated, 0x80000000);
     dataProperty(sprinkler_water_temperature, 0x000000C8);
 
-    setPayload(n3);
+    setPayload(n3, N3);
 
     printSize("maxN3", 28, len);
     wToFile(buffer, len, "maxN3");
@@ -185,7 +186,7 @@ void generateN3min(){
     dataProperty(sprinkler_water_volume_cumulated, 0x00000000);
     dataProperty(sprinkler_water_temperature, 0x00000020);
 
-    setPayload(n3);
+    setPayload(n3, N3);
 
     printSize("minN3", 28, len);
     wToFile(buffer, len, "minN3");
@@ -205,7 +206,7 @@ void generateN4max(){
     dataProperty(litter_temperature, -50);
     dataProperty(litter_vwc, 0.3);
 
-    setPayload(n4);
+    setPayload(n4, N4);
 
     printSize("maxN4", 24, len);
     wToFile(buffer, len, "maxN4");
@@ -225,7 +226,7 @@ void generateN4min(){
     dataProperty(litter_temperature, 0x00000000);
     dataProperty(litter_vwc, 0.3);
 
-    setPayload(n4);
+    setPayload(n4, N4);
 
     printSize("minN4", 24, len);
     wToFile(buffer, len, "minN4");
@@ -249,7 +250,7 @@ void generateN5max(){
     dataProperty(co2_ppm, 0x000000001388);
     dataProperty(ch4_ppm, 0x000000000064);
 
-    setPayload(n5);
+    setPayload(n5, N5);
 
     printSize("max5", 29, len);
     wToFile(buffer, len, "maxN5");
@@ -273,7 +274,7 @@ void generateN5min(){
     dataProperty(co2_ppm, 0x000000000000);
     dataProperty(ch4_ppm, 0x000000000000);
 
-    setPayload(n5);
+    setPayload(n5, N5);
 
     printSize("min5", 29, len);
     wToFile(buffer, len, "minN5");
@@ -295,7 +296,7 @@ void generateN6max(){
     dataProperty(indoor_wind_speed, 0x0000000000C8);
     dataProperty(indoor_wind_direction, 0x000000000168);
     
-    setPayload(n6);
+    setPayload(n6, N6);
 
     printSize("max6", 28, len);
     wToFile(buffer, len, "maxN6");
@@ -316,7 +317,7 @@ void generateN6min(){
     dataProperty(indoor_wind_speed, 0x000000000000);
     dataProperty(indoor_wind_direction, 0x000000000000);
     
-    setPayload(n6);                    // Free the allocated serialized buffer
+    setPayload(n6, N6);                    // Free the allocated serialized buffer
 
     printSize("min6", 28, len);
     wToFile(buffer, len, "minN6");
@@ -343,7 +344,7 @@ void generateN9max(){
     dataProperty(outdoor_wind_direction,360);
     dataProperty(outdoor_rainfall,      200);
 
-    setPayload(n9);
+    setPayload(n9, N9);
     
     printSize("max9", 11 + 44, len);
     wToFile(buffer, len, "maxN9");
@@ -370,7 +371,7 @@ void generateN9min(){
     dataProperty(outdoor_wind_direction,0);
     dataProperty(outdoor_rainfall,      0);
 
-    setPayload(n9);
+    setPayload(n9, N9);
     
     printSize("min9", 11 + 44, len);
     wToFile(buffer, len, "minN9");
@@ -388,7 +389,7 @@ void generateN10max(){
     dataProperty(case_temperature,      -50);
     dataProperty(case_humidity,         1000);
 
-    setPayload(n10);
+    setPayload(n10, N10);
     
     printSize("max10", 11 + 31, len);
     wToFile(buffer, len, "maxN10");
@@ -406,7 +407,7 @@ void generateN10min(){
     dataProperty(case_temperature,      0);
     dataProperty(case_humidity,         0);
 
-    setPayload(n10);
+    setPayload(n10, N10);
     
     printSize("min10", 11 + 31, len);
     wToFile(buffer, len, "minN10");
