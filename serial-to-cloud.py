@@ -11,6 +11,7 @@ ser = serial.Serial(
 )
  
 while 1:
-    hexData= ser.read().hex()
-    print hexData
-    os.system('echo -ne "'.hexData.'" | mosquitto_pub -d -q 1 -h "3maple.iot.ibtsystems.it" -p "1888" -t "v1/devices/me/telemetry" -u "uECKj3EmRyYOuLMHOcLU"  -s')
+    hexData += ser.read().hex()
+    if (hexData == '\n')   
+        os.system('echo -ne "'.hexData.'" | mosquitto_pub -d -q 1 -h "3maple.iot.ibtsystems.it" -p "1888" -t "v1/devices/me/telemetry" -u "uECKj3EmRyYOuLMHOcLU"  -s')
+        hexData = ''
