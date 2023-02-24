@@ -138,7 +138,7 @@ NOTE: consider moving cow temperature in a sub message
     required uint16 indoor_wind_speed_min = 1;
     required uint16 indoor_wind_speed_max = 2;
     required uint16 indoor_wind_speed = 3;
-    required uint16 indoor_wind_direction= 1;
+    required uint16 indoor_wind_direction= 4;
   }
 
   message PayloadN6 {

@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+message Header {
+  uint32 nodeID = 1;
+  uint32 unixTime = 2;
+  uint32 fw_version = 3;
+  uint32 battery_voltage = 4;
+  uint32 packet_rolling_num = 5;
+}
+
+message N1_Data {
+  int32 indoor_wb_temperature = 1;
+  uint32 indoor_light = 2;
+  uint32 indoor_humidity = 3;
+  int32 indoor_db_temperature = 4;
+}
+
+message N1_Message {
+  Header int = 1;
+  N1_Data ext = 2;
+}
+
+message N2_Data {
+  uint32  bma_reset_counter = 1;
+  uint32  cow_shock_conunt = 2;
+  uint32  cow_temperature_min = 3;
+  uint32  cow_temperature_max = 4;
+  uint32  cow_temperature_ave = 5;
+  repeated float   cow_features_set_0_fx = 6 [packed = true]; // zero or more values
+  uint32  behaviour_classes = 7;
+}
+
+message N2_Message {
+  Header int = 1;
+  N2_Data ext = 2;
+}
+
+message N3_Data {
+  uint32 drinking_water_volume_cumulated = 1;
+  int32  drinking_water_temperature = 2;
+  uint32 sprinkler_water_volume_cumulated = 3;
+  int32  sprinkler_water_temperature = 4;
+}
+
+message N3_Message {
+  Header int = 1;
+  N3_Data ext = 2;
+}
+
+message N4_Data {
+  uint32 litter_conductivity = 1;
+  int32  litter_temperature = 2;
+  float  litter_vwc = 3;
+}
+
+message N4_Message {
+  Header int = 1;
+  N4_Data ext = 2;
+}
+
+message N5_Data {
+  uint32  sound_level_min = 1;
+  uint32  sound_level_max = 2;
+  uint32  sound_level_avg = 3;
+  uint32  nh3_ppm = 4;
+  uint32  h2s_ppm = 5;
+  uint32  co2_ppm = 6;
+  uint32  ch4_ppm = 7;
+}
+  
+message N5_Message {
+  Header int = 1;
+  N5_Data ext = 2;
+}
+
+message N6_Data {
+  uint32 indoor_wind_speed_min = 1;
+  uint32 indoor_wind_speed_max = 2;
+  uint32 indoor_wind_speed = 3;
+  uint32 indoor_wind_direction= 4;
+}
+
+message N6_Message {
+  Header int = 1;
+  N6_Data ext = 2;
+}
+
+message N7_Data {
+  bool dry_contact = 1;
+}
+
+message N7_Message {
+  Header int = 1;
+  N7_Data ext = 2;
+}
+
+message N8_Data {
+  bool rele = 1;
+}
+
+message N8_Message {
+  Header int = 1;
+  N8_Data ext = 2;
+}
+
+enum Network {
+  // still no definition for Network enum values
+  GPRS = 0;
+  UMTS = 1;
+  LTE = 2;
+}
+
+message N9_Data {
+  int32  case_temperature = 1;
+  uint32 case_humidity = 2;
+  int32  outdoor_temperature = 3;
+  uint32 outdoor_humidity = 4;
+  uint32 outdoor_wind_speed_min = 5;
+  uint32 outdoor_wind_speed_max = 6;
+  uint32 outdoor_wind_speed = 7;
+  uint32 outdoor_wind_direction = 8;
+  uint32 outdoor_rainfall = 9;
+  Network network_type = 10;
+  uint32  signal_strength = 11;
+  uint32  solar_voltage = 12;
+  uint32  solar_current = 13;
+  double  latitude = 14;
+  double  longitude = 15;
+  uint32  battery_current = 16;
+}
+  
+message N9_Message {
+  Header int = 1;
+  N9_Data ext = 2;
+} 
+
+message N10_Data {
+  double latitude = 1;
+  double longitude = 2;
+  int32  case_temperature = 3;
+  uint32 case_humidity = 4;
+  repeated uint32 indoor_insects_count_packed = 5;
+}
+
+message N10_Message {
+  Header int = 1;
+  N10_Data ext = 2;
+}
+
+message Node_Message {
+  oneof test_oneof{
+    N1_Message  n1_message  =  1;
+    N2_Message  n2_message  =  2;
+    N3_Message  n3_message  =  3;
+    N4_Message  n4_message  =  4;
+    N5_Message  n5_message  =  5;
+    N6_Message  n6_message  =  6;
+    N7_Message  n7_message  =  7;
+    N8_Message  n8_message  =  8;
+    N9_Message  n9_message  =  9;
+    N10_Message n10_message = 10;
+  }
+}
